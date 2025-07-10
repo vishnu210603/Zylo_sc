@@ -33,16 +33,14 @@ export default function DesignsPage() {
   };
 
   return (
-    <main className="bg-[#FAF9FC] min-h-screen flex flex-col lg:flex-row overflow-hidden">
-      {/* Sidebar */}
+    <main className="bg-[#FAF9FC] min-h-screen flex">
       <Sidebar />
-
       <div className="flex-1">
         <TopNav />
 
-        {/* Grid */}
-        <div className="pt-6 pb-36 px-4 sm:px-6 lg:px-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Cards Grid */}
+        <div className="pt-12 px-12 pb-36 pl-24"> {/* space from sidebar */}
+          <div className="flex flex-wrap gap-x-[32px] gap-y-10 justify-start">
             {images.map((img, index) => (
               <div
                 key={index}
@@ -52,15 +50,24 @@ export default function DesignsPage() {
                     ? 'bg-[#C3DBFF]'
                     : 'bg-white border-transparent'
                 }`}
+                style={{
+                  width: 'calc((100% - 64px) / 3)',
+                  height: '473.33px',
+                  paddingTop: '20px',
+                  paddingLeft: '16px',
+                  paddingRight: '15px',
+                  paddingBottom: '69.33px',
+                }}
+                
               >
-                <div className="h-[260px] sm:h-[300px] w-full">
+                <div className="h-[384px] w-full">
                   <img
                     src={img}
                     alt={`Design ${index + 1}`}
                     className="w-full h-full object-cover rounded-2xl"
                   />
                 </div>
-                <div className="text-center text-[#474C66] font-semibold text-base sm:text-lg py-3">
+                <div className="text-center text-[#474C66] font-semibold text-xl py-4">
                   Description
                 </div>
               </div>
@@ -68,39 +75,57 @@ export default function DesignsPage() {
           </div>
         </div>
 
-        {/* Bottom Nav */}
+        {/* Bottom Navigation */}
         <div
-          className="fixed bottom-0 left-0 right-0 z-50 px-4 sm:px-10 lg:left-[70px] lg:right-6 h-[100px] flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-b from-transparent to-[#FFFAFA] backdrop-blur-md"
-        >
+  className="fixed bottom-0 left-[70px] h-[100px] w-full right-6 z-0 flex justify-between items-center px-30 rounded-xl"
+  style={{
+    background: 'linear-gradient(178deg, rgba(255, 255, 255, 0.00) 1.93%, #FFFAFA 30.12%)',
+    backdropFilter: 'blur(22px)', // optional for elevation effect
+  }}
+>
+
           {/* Back Arrow */}
-          <button className="bg-[#5598FF] hover:bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center">
-            <Image src="/assets/Button.svg" alt="Back" width={40} height={40} />
+          <button className="bg-[#5598FF] hover:bg-blue-600 text-white w-9 h-9 rounded-full flex items-center justify-center">
+            <Image src="./assets/Button.svg" alt="" width={45} height={45}/>
           </button>
 
           {/* Step Buttons */}
-          <div className="flex items-center gap-3 overflow-x-auto">
-            {['Website', 'Logo'].map((label, idx) => (
-              <div key={idx} className="flex items-center gap-3">
-                <button className="rounded-[24px] bg-[#5598FF] text-white text-sm font-medium shadow-md px-4 py-2 w-[90px]">
-                  {label}
-                </button>
-                {idx < 2 && (
-                  <Image src="/assets/arrow-right.svg" alt="Next" width={30} height={30} />
-                )}
-              </div>
-            ))}
-            <Image src="/assets/Add.svg" alt="Add" width={40} height={40} />
-          </div>
+          <div className="flex items-center gap-4">
+  {['Website', 'Logo'].map((label, idx) => (
+    <div key={idx} className="flex items-center gap-4">
+      <button
+        className={`flex items-center justify-center gap-[4px] rounded-[24px] bg-[#5598FF] text-white font-medium shadow-md ${
+          label === '+' ? 'text-xl px-3 py-2' : 'w-[90px] px-4 py-2 text-sm'
+        }`}
+      >
+        {label}
+      </button>
+      {idx < 2 && (
+       <Image src="./assets/arrow-right.svg" alt="" width={55} height={55}/>
+      )}
+    </div>
+  ))}
+  <Image src="./assets/Add.svg" alt="" width={55} height={55}/>
+</div>
+
 
           {/* Preview Edit */}
-          <button
+          {/* <button
             onClick={handlePreviewEdit}
             disabled={selected.length === 0}
             className="bg-[#5598FF] hover:bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-medium flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <span>Preview Edit</span>
-            <FiChevronRight className="text-lg" />
-          </button>
+            Preview Edit 
+          </button> */}
+
+<button onClick={handlePreviewEdit}
+            disabled={selected.length === 0}
+            className="bg-[#5598FF] hover:bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-medium flex items-center gap-1 disabled:cursor-not-allowed"
+          >
+  <span>Preview Edit</span>
+  <FiChevronRight className="text-lg" />
+</button>
+
         </div>
       </div>
     </main>
