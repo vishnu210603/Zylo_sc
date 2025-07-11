@@ -383,9 +383,9 @@ export default function PreviewEditPage() {
         <div className="hidden lg:flex flex-col justify-between items-center fixed top-[180px] right-6 z-40 h-[calc(100vh-200px)]">
           <button 
             onClick={() => setToolsOpen(!toolsOpen)} 
-            className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center hover:bg-gray-50"
+            className=""
           >
-            <Sliders size={20} />
+            <Image src='./assets/Button.svg' alt='' width={30} height={30}/>
           </button>
           
           <div className="flex flex-col items-center gap-5 mb-4">
@@ -410,7 +410,7 @@ export default function PreviewEditPage() {
                 onClick={() => setToolsOpen(false)}
                 className="text-gray-500 hover:text-red-500"
               >
-                <Image src='./assets/Button.svg' alt='' width={74} height={74}/>
+                <Image src='./assets/Cross.svg' alt='' width={20} height={20}/>
               </button>
             </div>
             

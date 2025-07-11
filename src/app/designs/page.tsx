@@ -815,7 +815,7 @@ export default function DesignsPage() {
               onClick={handlePreviewEdit}
               className="w-[70%] h-auto bg-gradient-to-r from-[#5598FF] to-[#7EB1FF] text-white py-4 px-4 rounded-4xl font-bold shadow-lg flex items-center justify-center gap-2"
             >
-              <span>Preview Edit ({selected.length} selected)</span>
+              <span>Preview Edit</span>
               <Image src='./assets/next.svg' alt='' width={10} height={10}/>
 
             </button>
