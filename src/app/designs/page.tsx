@@ -599,7 +599,9 @@ export default function DesignsPage() {
   };
 
   // const { aspectClass, maxW, maxH } = ASPECT_CONFIG[aspect] || ASPECT_CONFIG['1:1'];
-  const { aspectClass, maxW, maxH } = ASPECT_CONFIG[aspect];
+  const config = ASPECT_CONFIG[aspect as AspectRatio] ?? ASPECT_CONFIG['1:1'];
+const { aspectClass, maxW, maxH } = config;
+
   const images = getImagesByAspect(aspect);
 
   const handleSelect = (index: number) => {
