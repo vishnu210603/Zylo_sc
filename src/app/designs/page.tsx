@@ -533,7 +533,11 @@ const ASPECT_CONFIG = {
   '3:2': { aspectClass: 'aspect-[3/2]', maxW: 'w-[360px]', maxH: 'h-[240px]' },
 };
 
-const VALID_ASPECTS = Object.keys(ASPECT_CONFIG);
+// const VALID_ASPECTS = Object.keys(ASPECT_CONFIG);
+type AspectRatio = keyof typeof ASPECT_CONFIG;
+
+const VALID_ASPECTS: AspectRatio[] = ['1:1', '9:16', '2:3', '3:2'];
+
 
 export default function DesignsPage() {
   const router = useRouter();
@@ -541,16 +545,27 @@ export default function DesignsPage() {
 
   const [selected, setSelected] = useState<number | null>(null);
   const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
-  const [aspect, setAspect] = useState<string>('1:1');
+  const [aspect, setAspect] = useState<AspectRatio>('1:1');
+
+
+  // useEffect(() => {
+  //   const paramAspect = searchParams.get('aspect');
+  //   if (paramAspect && VALID_ASPECTS.includes(paramAspect)) {
+  //     setAspect(paramAspect);
+  //   } else {
+  //     router.replace(`?aspect=1:1`);
+  //   }
+  // }, [searchParams, router]);
 
   useEffect(() => {
-    const paramAspect = searchParams.get('aspect');
-    if (paramAspect && VALID_ASPECTS.includes(paramAspect)) {
-      setAspect(paramAspect);
-    } else {
-      router.replace(`?aspect=1:1`);
-    }
-  }, [searchParams, router]);
+  const paramAspect = searchParams.get('aspect');
+  if (paramAspect && VALID_ASPECTS.includes(paramAspect as AspectRatio)) {
+    setAspect(paramAspect as AspectRatio);
+  } else {
+    router.replace(`?aspect=1:1`);
+  }
+}, [searchParams, router]);
+
 
   const getImagesByAspect = (aspect: string) => {
     switch (aspect) {
@@ -582,7 +597,8 @@ export default function DesignsPage() {
     }
   };
 
-  const { aspectClass, maxW, maxH } = ASPECT_CONFIG[aspect] || ASPECT_CONFIG['1:1'];
+  // const { aspectClass, maxW, maxH } = ASPECT_CONFIG[aspect] || ASPECT_CONFIG['1:1'];
+  const { aspectClass, maxW, maxH } = ASPECT_CONFIG[aspect];
   const images = getImagesByAspect(aspect);
 
   const handleSelect = (index: number) => {
