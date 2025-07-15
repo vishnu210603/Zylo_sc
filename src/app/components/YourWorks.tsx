@@ -1,115 +1,75 @@
-
-// import React from 'react';
-
-// const YourWorks = () => {
-//   const inspirationImages = [
-//     'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&h=200&fit=crop',
-//     'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop',
-//     'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop',
-//     'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&h=200&fit=crop',
-//   ];
-
-//   return (
-//     <div className="mt-12">
-//       <div className="max-w-7xl">
-//         <div className="text-left mb-9">
-//           <h2 className="text-2xl font-bold text-[#555770]">Inspiration</h2>
-//           <p className="text-[#8E90A6] font-normal">Inspire. Explore. Create</p>
-//         </div>
-        
-//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-//           {inspirationImages.map((image, index) => (
-//             <div
-//               key={index}
-//               className="group cursor-pointer overflow-hidden rounded-xl aspect-[4/3] hover-scale"
-//             >
-//               <div
-//                 className="w-full h-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-//                 style={{
-//                   backgroundImage: `url(${image})`,
-//                 }}
-//               />
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default YourWorks;
-
-
-
-
-
-
 'use client';
-
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
 
 const YourWorks = () => {
-  const workImages = [
-    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&h=200&fit=crop',
-    'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=300&h=200&fit=crop',
-    'https://images.unsplash.com/photo-1493612276216-ee3925520721?w=300&h=200&fit=crop',
-    'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=300&h=200&fit=crop',
+  const inspirationData = [
+    { image: './resources/SC1.png', prompt: 'Use the product sample (bra) in the image to create Vogue styled photoshoot with beach background and a pet dog with the model. Do not make any changes to the product. Use Indian models' },
+  { image: './resources/SC2.png', prompt: 'Refer to the image provided and generate better result for instagram result (no adult content) and use indian models' },
+  { image: './resources/SC3.png', prompt: 'Cool photoshoot model in the sense of vogue style to attract female audience and use indian model with a bit healthy and curvy body' },
+  { image: './resources/SC4.png', prompt: 'Use the product sample (bra) in the image to create Vogue styled photoshoot with beach background and a pet dog with the model. Do not make any changes to the product. Use Indian models' },
+  
   ];
+
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLElement).id === 'popup-background') {
+      setSelectedIndex(null);
+    }
+  };
 
   return (
     <>
-      {/* Desktop View */}
-      <div className="hidden md:block mt-8 pb-4">
-        <div className="max-w-7xl">
-          <div className="text-left mb-9">
-            <h2 className="text-2xl font-bold text-[#555770]">Your Works</h2>
-            <p className="text-[#8E90A6] font-normal">Recent creations and projects</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {workImages.map((image, index) => (
-              <motion.div
-                key={index}
-                className="group cursor-pointer overflow-hidden rounded-xl aspect-[4/3] bg-white shadow-md"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div
-                  className="w-full h-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                  style={{
-                    backgroundImage: `url(${image})`,
-                  }}
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile View */}
-      <div className="md:hidden mt-8 px-4 pb-2">
+      {/* Grid Display */}
+      <div className="mt-2 px-4 md:px-8 mb-10">
         <div className="text-left mb-6">
-          <h2 className="text-xl font-bold text-[#555770]">Your Works</h2>
-          <p className="text-[#8E90A6] font-normal">Recent creations and projects</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-[#555770]">Your Works</h2>
+          <p className="text-[#8E90A6] font-normal">Access Your Projects</p>
         </div>
-        
-        <div className="grid grid-cols-2 gap-4">
-          {workImages.map((image, index) => (
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {inspirationData.map((data, index) => (
             <div
               key={index}
-              className="cursor-pointer overflow-hidden rounded-xl aspect-[4/3] bg-white shadow-md"
+              onClick={() => setSelectedIndex(index)}
+              className="cursor-pointer overflow-hidden rounded-xl aspect-[4/3] md:aspect-[1/1] shadow-md transition-transform hover:scale-105"
             >
-              <div
-                className="w-full h-full bg-cover bg-center"
-                style={{
-                  backgroundImage: `url(${image})`,
-                }}
+              <img
+                src={data.image}
+                alt={`Inspiration ${index + 1}`}
+                className="w-full h-full object-cover object-top"
               />
             </div>
           ))}
         </div>
       </div>
+
+      {/* Popup View */}
+      {selectedIndex !== null && (
+        <div
+          id="popup-background"
+          className="fixed inset-0 z-100 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={handleBackgroundClick}
+        >
+          <div className="bg-gradient-to-br from-[#73DFE7] to-[#0063F7] p-[2px] rounded-2xl shadow-2xl w-full max-w-md">
+            <div className="bg-gradient-to-br from-[#73DFE7] to-[#0063F7] rounded-2xl p-4">
+              <img
+                src={inspirationData[selectedIndex].image}
+                alt={`Inspiration Full ${selectedIndex + 1}`}
+                className="w-full rounded-lg mb-4 object-cover"
+              />
+
+              {/* White Prompt Box */}
+              <div className="bg-white p-3 rounded-xl shadow-md max-h-[3.5rem] overflow-y-auto">
+                <p className="text-sm text-gray-800 leading-snug whitespace-pre-wrap break-words">
+                  <span className="font-semibold text-black">Prompt:</span>{' '}
+                  {inspirationData[selectedIndex].prompt}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

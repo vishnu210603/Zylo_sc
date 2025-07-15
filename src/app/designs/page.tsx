@@ -1,314 +1,172 @@
-// // 'use client';
+// 'use client';
 
-// // import { useState } from 'react';
-// // import Image from 'next/image';
-// // import { useRouter } from 'next/navigation';
-// // import TopNav from '@/app/components/TopNavbar';
-// // import Sidebar from '@/app/components/Sidebar';
-// // import { FiChevronRight } from 'react-icons/fi';
+// import { useSearchParams, useRouter } from 'next/navigation';
+// import { useState } from 'react';
+// import TopNav from '@/app/components/TopNavbar';
+// import Image from 'next/image';
 
-// // const generateImages = () => {
-// //   return Array.from({ length: 6 }).map(
-// //     (_, i) => `https://picsum.photos/seed/${i + 1}/500/390`
-// //   );
-// // };
+// export default function DesignsPage() {
+//   const router = useRouter();
+//   const searchParams = useSearchParams();
+//   const [selected, setSelected] = useState<number | null>(null);
+//   const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
+//   const aspect = searchParams.get('aspect') || '1:1';
 
-// // export default function DesignsPage() {
-// //   const router = useRouter();
-// //   const [selected, setSelected] = useState<number[]>([]);
-// //   const [activeStep, setActiveStep] = useState('Website');
-// //   const [showBrandKit, setShowBrandKit] = useState(false);
-// //   const [showModal, setShowModal] = useState(false);
-// //   const [showSidebar, setShowSidebar] = useState(false);
-// //   const [currentIndex, setCurrentIndex] = useState(0);
-// //   const images = generateImages();
+//   const getImagesByAspect = (aspect: string) => {
+//     switch (aspect) {
+//       case '1:1':
+//         return [
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Classic square design—perfectly balanced for any layout.' },
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Bold and centered—ideal for Instagram and product shots.' },
+//         ];
+//       case '9:16':
+//         return [
+//           { src: '/resources/SC3.png', alt: 'Shaper_Cult', caption: 'Vertical elegance—tailored for reels and stories.' },
+//           { src: '/resources/SC1.png', alt: 'Shaper_Cult', caption: 'Stand tall—highlight your product’s full length.' },
+//         ];
+//       case '16:9':
+//         return [
+//           { src: '/resources/169.jpg', alt: 'Shaper_Cult', caption: 'Wide format—great for web banners and YouTube.' },
+//           { src: '/resources/169.jpg', alt: 'Shaper_Cult', caption: 'Panoramic view—showcase more, scroll less.' },
+//         ];
+//       case '4:5':
+//         return [
+//           { src: '/resources/45.jpg', alt: 'Shaper_Cult', caption: 'Perfectly portrait—optimized for feed engagement.' },
+//           { src: '/resources/45.jpg', alt: 'Shaper_Cult', caption: 'Focus in—capture detail with portrait perfection.' },
+//         ];
+//       default:
+//         return [
+//           { src: '/resources/11.jpg', alt: 'Shaper_Cult', caption: 'Default square layout.' },
+//           { src: '/resources/11.jpg', alt: 'Shaper_Cult', caption: 'Square style with clean composition.' },
+//         ];
+//     }
+//   };
 
-// //   const toggleSelect = (index: number) => {
-// //     if (selected.includes(index)) {
-// //       setSelected((prev) => prev.filter((i) => i !== index));
-// //     } else if (selected.length < 3) {
-// //       setSelected((prev) => [...prev, index]);
-// //     }
-// //   };
+//   const getAspectClass = () => {
+//     switch (aspect) {
+//       case '4:5':
+//         return 'aspect-[4/5] w-[320px] h-[400px]';
+//       case '9:16':
+//         return 'aspect-[9/16] h-[460px]';
+//       case '16:9':
+//         return 'aspect-[16/9] h-[270px]'; // Wider but shorter
+//       case '1:1':
+//       default:
+//         return 'aspect-square w-[360px]';
+//     }
+//   };
 
-// //   const handlePreviewEdit = () => {
-// //     const selectedImages = selected.map((i) => encodeURIComponent(images[i]));
-// //     const query = selectedImages.join(',');
-// //     router.push(`/preview?images=${query}`);
-// //   };
+//   const images = getImagesByAspect(aspect);
+//   const aspectClass = getAspectClass();
 
-// //   return (
-// //     <main className="bg-[#FAF9FC] min-h-screen flex flex-col sm:flex-row">
-// //       {/* Desktop Sidebar */}
-// //       <div className="hidden sm:block">
-// //         <Sidebar />
-// //       </div>
+//   const handleSelect = (index: number) => {
+//     setSelected(index === selected ? null : index);
+//   };
 
-// //       {/* Main Content */}
-// //       <div className="flex-1 w-full">
-// //         {/* Desktop Top Navbar */}
-// //         <div className="hidden sm:block">
-// //           <TopNav />
-// //         </div>
+//   const handlePreview = () => {
+//     if (selected !== null) {
+//       const imageQuery = encodeURIComponent(images[selected].src);
+//       const captionQuery = encodeURIComponent(images[selected].caption);
+//       const aspectQuery = encodeURIComponent(aspect);
+//       router.push(`/preview?images=${imageQuery}&caption=${captionQuery}&aspect=${aspectQuery}`);
+//     }
+//   };
 
-// //         {/* Mobile Top Header */}
-// //         <div className="sm:hidden flex justify-center items-center py-3 border-b border-gray-300 bg-white relative">
-// //           <Image src="/assets/ZyloLogo.svg" alt="Zylo Logo" width={100} height={40} />
-// //           <button
-// //             onClick={() => setShowSidebar(true)}
-// //             className="absolute left-4 text-2xl"
-// //           >
-// //             ☰
-// //           </button>
-// //         </div>
+//   const goBackHome = () => {
+//     router.push('/');
+//   };
 
-// //         {/* Mobile Sidebar Drawer */}
-// //         {showSidebar && (
-// //           <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex sm:hidden">
-// //             <div className="w-64 bg-white p-4 space-y-4">
-// //               <div className="flex justify-between items-center mb-4">
-// //                 <h2 className="text-xl font-semibold">Menu</h2>
-// //                 <button onClick={() => setShowSidebar(false)} className="text-xl">×</button>
-// //               </div>
-// //               <div className="flex items-center gap-3">
-// //                 <Image src="/assets/profile.png" alt="Profile" width={40} height={40} className="rounded-full" />
-// //                 <span className="font-medium">Dashboard</span>
-// //               </div>
-// //               <nav className="space-y-2">
-// //                 <button className="block w-full text-left px-2 py-1 text-gray-700">Home</button>
-// //                 <button className="block w-full text-left px-2 py-1 text-gray-700">Prices</button>
-// //                 <button className="block w-full text-left px-2 py-1 text-gray-700">Blog</button>
-// //                 <button className="block w-full text-left px-2 py-1 text-gray-700">Explore AI</button>
-// //               </nav>
-// //             </div>
-// //             <div className="flex-1" onClick={() => setShowSidebar(false)} />
-// //           </div>
-// //         )}
+//   return (
+//     <main className="min-h-screen bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] relative">
+//       {/* Top Navbar */}
+//       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] shadow-md">
+//         <TopNav />
+//       </div>
 
-// //         {/* Desktop Cards */}
-// //         <div className="hidden sm:block pl-56 pr-3 pt-9">
-// //           <div className="flex flex-wrap gap-4 justify-start">
-// //             {images.map((img, index) => (
-// //               <div
-// //                 key={index}
-// //                 onClick={() => toggleSelect(index)}
-// //                 className={`rounded-[30px] shadow-md cursor-pointer transition-all duration-200 overflow-hidden border-2 ${
-// //                   selected.includes(index)
-// //                     ? 'bg-[#C3DBFF]'
-// //                     : 'bg-white border-transparent'
-// //                 }`}
-// //                 style={{
-// //                   width: 'calc((100% - 64px) / 3)',
-// //                   height: '473.33px',
-// //                   paddingTop: '20px',
-// //                   paddingLeft: '16px',
-// //                   paddingRight: '15px',
-// //                 }}
-// //               >
-// //                 <div className="h-[384px] w-full">
-// //                   <img
-// //                     src={img}
-// //                     alt={`Design ${index + 1}`}
-// //                     className="w-full h-full object-cover rounded-2xl"
-// //                   />
-// //                 </div>
-// //                 <div className="text-center text-[#555770] font-bold text-3xl py-4">
-// //                   Description
-// //                 </div>
-// //               </div>
-// //             ))}
-// //           </div>
-// //         </div>
+//       <div className="max-w-7xl mx-auto pt-28 pb-32 px-4 text-center">
+//         {/* Back Button */}
+//         <div className="relative mb-10 h-[40px]">
+//           <div className="absolute left-0 top-1/2 -translate-y-1/2">
+//             <button
+//               onClick={goBackHome}
+//               className="flex items-center gap-2 text-sm text-[#5598FF] font-medium bg-white border border-[#E0E0E0] px-2 py-2 rounded-full shadow-sm hover:bg-[#5598FF] hover:text-white transition"
+//             >
+//               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+//                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+//               </svg>
+//             </button>
+//           </div>
 
-// //         {/* Mobile Image Grid */}
-// //         <div className="sm:hidden grid grid-cols-2 gap-3 p-4">
-// //           {images.map((img, idx) => (
-// //             <div
-// //               key={idx}
-// //               onClick={() => {
-// //                 setCurrentIndex(idx);
-// //                 setShowModal(true);
-// //               }}
-// //               className="aspect-square w-full bg-gray-100 rounded-xl overflow-hidden"
-// //             >
-// //               <img
-// //                 src={img}
-// //                 alt={`Design ${idx}`}
-// //                 className="w-full h-full object-cover cursor-pointer"
-// //               />
-// //             </div>
-// //           ))}
-// //         </div>
+//           <div className="flex justify-center items-center h-full">
+//             <div className="p-[2px] rounded-full bg-gradient-to-r from-cyan-400/50 to-blue-500/50">
+//               <div className="px-4 py-2 bg-white rounded-full text-sm font-medium text-[#555770]">
+//                 Image Aspect Ratio: <span className="font-semibold">{aspect}</span>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
 
-// //         {/* Modal for Enlarged Image */}
-// //         {showModal && (
-// //           <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-// //             <div className="bg-white rounded-xl overflow-hidden w-11/12 max-w-md relative">
-// //               <img src={images[currentIndex]} className="w-full h-[300px] object-cover" />
-// //               <div className="flex justify-between px-4 py-2">
-// //                 <button
-// //                   onClick={() =>
-// //                     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
-// //                   }
-// //                   className="text-[#5598FF] font-bold"
-// //                 >
-// //                   Prev
-// //                 </button>
-// //                 <button
-// //                   onClick={() =>
-// //                     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
-// //                   }
-// //                   className="text-[#5598FF] font-bold"
-// //                 >
-// //                   Next
-// //                 </button>
-// //               </div>
-// //               <button
-// //                 onClick={() => setShowModal(false)}
-// //                 className="absolute top-3 right-4 text-white text-2xl"
-// //               >
-// //                 ×
-// //               </button>
-// //             </div>
-// //           </div>
-// //         )}
+//         {/* Cards */}
+//         <div className="flex flex-col sm:flex-row justify-center items-stretch gap-10">
+//           {images.map((img, index) => (
+//             <div
+//               key={index}
+//               onClick={() => handleSelect(index)}
+//               className={`${
+//                 aspect === '16:9' ? 'w-[480px]' : 'sm:w-[320px]'
+//               } bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] rounded-2xl shadow-md overflow-hidden cursor-pointer transition-all duration-300 p-4 ${
+//                 selected === index ? 'border-2 border-[#5598FF] bg-[#EAF2FF]' : 'border border-transparent'
+//               }`}
+//             >
+//               <div
+//                 onClick={(e) => {
+//                   e.stopPropagation();
+//                   setZoomedIndex(index);
+//                 }}
+//                 className={`relative w-full rounded-xl overflow-hidden ${aspectClass}`}
+//               >
+//                 <Image src={img.src} alt={img.alt} fill className="object-cover rounded-xl" />
+//               </div>
+//               <p className="text-sm text-[#555770] font-medium text-left mt-4">{img.caption}</p>
+//             </div>
+//           ))}
+//         </div>
 
-// //         {/* Bottom Navigation */}
-// //         <div
-// //   className="fixed bottom-0 left-[150px] right-0 h-24 z-0 flex items-center justify-between px-8 py-4 rounded-t-xl"
-// //   style={{
-// //     background:
-// //       'linear-gradient(178deg, rgba(255, 255, 255, 0.00) 1.93%, #FFFAFA 30.12%)',
-// //     backdropFilter: 'blur(22px)',
-// //     boxShadow: '0px -2px 6px rgba(0,0,0,0.05)',
-// //   }}
-// // >
-// //   {/* Back Arrow */}
-// //   <button className="bg-[#5598FF] hover:bg-blue-600 text-white w-9 h-9 rounded-full flex items-center justify-center shadow-md">
-// //     <Image src="/assets/Button.svg" alt="Back" width={45} height={45} />
-// //   </button>
+//         {/* Preview Button */}
+//         {selected !== null && (
+//           <div className="fixed bottom-6 left-0 right-0 flex justify-center z-40">
+//             <button
+//               onClick={handlePreview}
+//               className="bg-gradient-to-r from-[#5598FF] to-[#7EB1FF] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transition"
+//             >
+//               Preview
+//             </button>
+//           </div>
+//         )}
+//       </div>
 
-// //   {/* Step Buttons */}
-// //   <div className="flex items-center gap-4">
-// //     {/* Website */}
-// //     <button
-// //       onClick={() => setActiveStep('Website')}
-// //       className={`rounded-[24px] font-medium shadow-md w-[90px] px-4 py-2 text-sm text-white ${
-// //         activeStep === 'Website' ? 'bg-[#5598FF]' : 'bg-[#7EB1FF]'
-// //       }`}
-// //     >
-// //       Website
-// //     </button>
-
-// //     <Image src="/assets/arrow-right.svg" alt="arrow" width={40} height={40} />
-
-// //     {/* Logo */}
-// //     <button
-// //       onClick={() => setActiveStep('Logo')}
-// //       className={`rounded-[24px] font-medium shadow-md w-[90px] px-4 py-2 text-sm text-white ${
-// //         activeStep === 'Logo' ? 'bg-[#5598FF]' : 'bg-[#7EB1FF]'
-// //       }`}
-// //     >
-// //       Logo
-// //     </button>
-
-// //     <Image src="/assets/arrow-right.svg" alt="arrow" width={40} height={40} />
-
-// //     {/* + / - Button */}
-// //     <button
-// //       onClick={() => setShowBrandKit(!showBrandKit)}
-// //       className="w-[54px] h-[54px] flex items-center justify-center transition-transform hover:scale-105"
-// //     >
-// //       <Image
-// //         src={
-// //           showBrandKit
-// //             ? '/assets/CancelAction.svg'
-// //             : '/assets/Add.svg'
-// //         }
-// //         alt="Toggle Brand Kit"
-// //         width={54}
-// //         height={54}
-// //       />
-// //     </button>
-
-// //     {/* Brand Kit */}
-// //     {showBrandKit && (
-// //       <>
-// //         <Image src="/assets/arrow-right.svg" alt="arrow" width={40} height={40} />
-// //         <button
-// //           onClick={() => setActiveStep('Brand Kit')}
-// //           className={`rounded-[24px] font-medium shadow-md w-[110px] px-4 py-2 text-sm text-white ${
-// //             activeStep === 'Brand Kit' ? 'bg-[#5598FF]' : 'bg-[#7EB1FF]'
-// //           }`}
-// //         >
-// //           Brand Kit
-// //         </button>
-// //       </>
-// //     )}
-// //   </div>
-
-// //   {/* Preview Edit Button */}
-// //   <button
-// //     onClick={handlePreviewEdit}
-// //     disabled={selected.length === 0}
-// //     className="bg-[#5598FF] hover:bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-medium flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed shadow"
-// //   >
-// //     <span>Preview Edit</span>
-// //     <FiChevronRight className="text-lg" />
-// //   </button>
-// // </div>
-
-
-// //         {/* Mobile Bottom Nav */}
-// //         <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 space-y-3 z-50">
-// //           <button
-// //             onClick={() => setActiveStep('Website')}
-// //             className={`w-full py-2 rounded-full font-semibold text-sm ${
-// //               activeStep === 'Website' ? 'bg-[#5598FF] text-white' : 'bg-[#A9CFFF] text-white'
-// //             }`}
-// //           >
-// //             Website
-// //           </button>
-
-// //           <button
-// //             onClick={() => setActiveStep('Logo')}
-// //             className={`w-full py-2 rounded-full font-semibold text-sm ${
-// //               activeStep === 'Logo' ? 'bg-[#5598FF] text-white' : 'bg-[#A9CFFF] text-white'
-// //             }`}
-// //           >
-// //             Logo
-// //           </button>
-
-// //           <button
-// //             onClick={() => setShowBrandKit(!showBrandKit)}
-// //             className="w-full py-2 rounded-full bg-[#A9CFFF] text-white font-semibold text-sm"
-// //           >
-// //             {showBrandKit ? 'Remove Brand Kit' : 'Add Brand Kit'}
-// //           </button>
-
-// //           {showBrandKit && (
-// //             <button
-// //               onClick={() => setActiveStep('Brand Kit')}
-// //               className={`w-full py-2 rounded-full font-semibold text-sm ${
-// //                 activeStep === 'Brand Kit' ? 'bg-[#5598FF] text-white' : 'bg-[#A9CFFF] text-white'
-// //               }`}
-// //             >
-// //               Brand Kit
-// //             </button>
-// //           )}
-
-// //           <button
-// //             onClick={handlePreviewEdit}
-// //             disabled={selected.length === 0}
-// //             className="w-full py-2 rounded-full bg-[#5598FF] text-white font-semibold text-sm disabled:opacity-50"
-// //           >
-// //             Preview Edit
-// //           </button>
-// //         </div>
-// //       </div>
-// //     </main>
-// //   );
-// // }
+//       {/* Zoomed Image Modal */}
+//       {zoomedIndex !== null && (
+//         <div
+//           onClick={() => setZoomedIndex(null)}
+//           className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+//         >
+//           <div className="max-h-[90vh] max-w-[90vw] rounded-2xl overflow-hidden bg-white shadow-xl flex items-center justify-center">
+//             <div className="relative w-full h-full flex justify-center items-center">
+//               <Image
+//                 src={images[zoomedIndex].src}
+//                 alt="Zoomed"
+//                 width={aspect === '9:16' ? 540 : aspect === '16:9' ? 960 : 600}
+//                 height={aspect === '9:16' ? 960 : aspect === '16:9' ? 540 : 600}
+//                 className="object-contain max-h-[80vh] w-auto h-auto rounded-2xl"
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </main>
+//   );
+// }
 
 
 
@@ -316,304 +174,342 @@
 
 // 'use client';
 
+// import { useSearchParams, useRouter } from 'next/navigation';
 // import { useState } from 'react';
-// import Image from 'next/image';
-// import { useRouter } from 'next/navigation';
 // import TopNav from '@/app/components/TopNavbar';
-// import Sidebar from '@/app/components/Sidebar';
-// import { FiChevronRight } from 'react-icons/fi';
-
-// const generateImages = () => {
-//   return Array.from({ length: 6 }).map(
-//     (_, i) => `https://picsum.photos/seed/${i + 1}/500/390`
-//   );
-// };
+// import Image from 'next/image';
 
 // export default function DesignsPage() {
 //   const router = useRouter();
-//   const [selected, setSelected] = useState<number[]>([]);
-//   const [activeStep, setActiveStep] = useState('Website');
-//   const [showBrandKit, setShowBrandKit] = useState(false);
-//   const [showModal, setShowModal] = useState(false);
-//   const [showSidebar, setShowSidebar] = useState(false);
-//   const [currentIndex, setCurrentIndex] = useState(0);
-//   const images = generateImages();
+//   const searchParams = useSearchParams();
+//   const [selected, setSelected] = useState<number | null>(null);
+//   const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
+//   const aspect = searchParams.get('aspect') || '1:1';
 
-//   const toggleSelect = (index: number) => {
-//     if (selected.includes(index)) {
-//       setSelected((prev) => prev.filter((i) => i !== index));
-//     } else if (selected.length < 3) {
-//       setSelected((prev) => [...prev, index]);
+//   const getImagesByAspect = (aspect: string) => {
+//     switch (aspect) {
+//       case '1:1':
+//         return [
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Classic square design—perfectly balanced for any layout.' },
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Bold and centered—ideal for Instagram and product shots.' },
+//         ];
+//       case '9:16':
+//         return [
+//           { src: '/resources/SC3.png', alt: 'Shaper_Cult', caption: 'Vertical elegance—tailored for reels and stories.' },
+//           { src: '/resources/SC1.png', alt: 'Shaper_Cult', caption: 'Stand tall—highlight your product’s full length.' },
+//         ];
+//       case '2:3':
+//         return [
+//           { src: '/resources/SC3.png', alt: 'Shaper_Cult', caption: 'Vertical Post—Great for mobile viewing.' },
+//           { src: '/resources/SC1.png', alt: 'Shaper_Cult', caption: 'Attention grabbing vertical format.' },
+//         ];
+//       case '3:2':
+//         return [
+//           { src: '/resources/SC10.png', alt: 'Shaper_Cult', caption: 'Horizontal Post—Wider scene coverage.' },
+//           { src: '/resources/SC10.png', alt: 'Shaper_Cult', caption: 'Ideal for wide product or scenery shots.' },
+//         ];
+//       default:
+//         return [
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Default layout.' },
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Clean and balanced view.' },
+//         ];
 //     }
 //   };
 
-//   const handlePreviewEdit = () => {
-//     const selectedImages = selected.map((i) => encodeURIComponent(images[i]));
-//     const query = selectedImages.join(',');
-//     router.push(`/preview?images=${query}`);
+//   const getAspectClass = () => {
+//     switch (aspect) {
+//       case '9:16':
+//         return 'aspect-[9/16]';
+//       case '2:3':
+//         return 'aspect-[2/3]';
+//       case '3:2':
+//         return 'aspect-[3/2]';
+//       case '1:1':
+//       default:
+//         return 'aspect-square';
+//     }
+//   };
+
+//   const images = getImagesByAspect(aspect);
+//   const aspectClass = getAspectClass();
+
+//   const handleSelect = (index: number) => {
+//     setSelected(index === selected ? null : index);
+//   };
+
+//   const handlePreview = () => {
+//     if (selected !== null) {
+//       const imageQuery = encodeURIComponent(images[selected].src);
+//       const captionQuery = encodeURIComponent(images[selected].caption);
+//       const aspectQuery = encodeURIComponent(aspect);
+//       router.push(`/preview?images=${imageQuery}&caption=${captionQuery}&aspect=${aspectQuery}`);
+//     }
+//   };
+
+//   const goBackHome = () => {
+//     router.push('/');
 //   };
 
 //   return (
-//     <main className="bg-[#FAF9FC] min-h-screen flex flex-col sm:flex-row">
-//       {/* Desktop Sidebar */}
-//       <div className="hidden sm:block">
-//         <Sidebar />
+//     <main className="min-h-screen bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] relative">
+//       {/* Top Navbar */}
+//       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] shadow-md">
+//         <TopNav />
 //       </div>
 
-//       {/* Main Content */}
-//       <div className="flex-1 w-full">
-//         {/* Desktop Top Navbar - Fixed */}
-//         <div className="hidden sm:block fixed top-0 z-40 w-full">
-//           <TopNav />
-//         </div>
-
-//         {/* Mobile Top Header */}
-//         <div className="sm:hidden flex justify-center items-center py-3 border-b border-gray-300 bg-white relative">
-//           <Image src="/assets/ZyloLogo.svg" alt="Zylo Logo" width={100} height={40} />
-//           <button
-//             onClick={() => setShowSidebar(true)}
-//             className="absolute left-4 text-2xl"
-//           >
-//             ☰
-//           </button>
-//         </div>
-
-//         {/* Mobile Sidebar Drawer */}
-//         {showSidebar && (
-//           <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex sm:hidden">
-//             <div className="w-64 bg-white p-4 space-y-4">
-//               <div className="flex justify-between items-center mb-4">
-//                 <h2 className="text-xl font-semibold">Menu</h2>
-//                 <button onClick={() => setShowSidebar(false)} className="text-xl">×</button>
-//               </div>
-//               <div className="flex items-center gap-3">
-//                 <Image src="/assets/profile.png" alt="Profile" width={40} height={40} className="rounded-full" />
-//                 <span className="font-medium">Dashboard</span>
-//               </div>
-//               <nav className="space-y-2">
-//                 <button className="block w-full text-left px-2 py-1 text-gray-700">Home</button>
-//                 <button className="block w-full text-left px-2 py-1 text-gray-700">Prices</button>
-//                 <button className="block w-full text-left px-2 py-1 text-gray-700">Blog</button>
-//                 <button className="block w-full text-left px-2 py-1 text-gray-700">Explore AI</button>
-//               </nav>
-//             </div>
-//             <div className="flex-1" onClick={() => setShowSidebar(false)} />
-//           </div>
-//         )}
-
-//         {/* Desktop Cards with top padding for fixed TopNav */}
-//         <div className="hidden sm:block pl-56 pr-3 pt-[130px] pb-100">
-//           <div className="flex flex-wrap gap-4 justify-start">
-//             {images.map((img, index) => (
-//               <div
-//                 key={index}
-//                 onClick={() => toggleSelect(index)}
-//                 className={`rounded-[30px] shadow-md cursor-pointer transition-all duration-200 overflow-hidden border-2 ${
-//                   selected.includes(index)
-//                     ? 'bg-[#C3DBFF]'
-//                     : 'bg-white border-transparent'
-//                 }`}
-//                 style={{
-//                   width: 'calc((100% - 64px) / 3)',
-//                   height: '473.33px',
-//                   paddingTop: '20px',
-//                   paddingLeft: '16px',
-//                   paddingRight: '15px',
-//                 }}
-//               >
-//                 <div className="h-[384px] w-full">
-//                   <img
-//                     src={img}
-//                     alt={`Design ${index + 1}`}
-//                     className="w-full h-full object-cover rounded-2xl"
-//                   />
-//                 </div>
-//                 <div className="text-center text-[#555770] font-bold text-3xl py-4">
-//                   Description
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-
-//         {/* Mobile Image Grid */}
-//         <div className="sm:hidden grid grid-cols-2 gap-3 p-4">
-//           {images.map((img, idx) => (
-//             <div
-//               key={idx}
-//               onClick={() => {
-//                 setCurrentIndex(idx);
-//                 setShowModal(true);
-//               }}
-//               className="aspect-square w-full bg-gray-100 rounded-xl overflow-hidden"
+//       <div className="max-w-7xl mx-auto pt-28 pb-32 px-4 text-center">
+//         {/* Back Button */}
+//         <div className="relative mb-10 h-[40px]">
+//           <div className="absolute left-0 top-1/2 -translate-y-1/2">
+//             <button
+//               onClick={goBackHome}
+//               className="flex items-center gap-2 text-sm text-[#5598FF] font-medium bg-white border border-[#E0E0E0] px-2 py-2 rounded-full shadow-sm hover:bg-[#5598FF] hover:text-white transition"
 //             >
-//               <img
-//                 src={img}
-//                 alt={`Design ${idx}`}
-//                 className="w-full h-full object-cover cursor-pointer"
-//               />
+//               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+//                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+//               </svg>
+//             </button>
+//           </div>
+
+//           <div className="flex justify-center items-center h-full">
+//             <div className="p-[2px] rounded-full bg-gradient-to-r from-cyan-400/50 to-blue-500/50">
+//               <div className="px-4 py-2 bg-white rounded-full text-sm font-medium text-[#555770]">
+//                 Image Aspect Ratio: <span className="font-semibold">{aspect}</span>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Centered Cards with Large Size */}
+//         <div className="flex flex-col sm:flex-row justify-center items-center flex-wrap gap-10">
+//           {images.map((img, index) => (
+//             <div
+//               key={index}
+//               onClick={() => handleSelect(index)}
+//               className={`w-full max-w-[420px] bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] rounded-2xl shadow-md overflow-hidden cursor-pointer transition-all duration-300 p-4 ${
+//                 selected === index ? 'border-2 border-[#5598FF] bg-[#EAF2FF]' : 'border border-transparent'
+//               }`}
+//             >
+//               <div
+//                 onClick={(e) => {
+//                   e.stopPropagation();
+//                   setZoomedIndex(index);
+//                 }}
+//                 className={`relative w-full ${aspectClass} rounded-xl overflow-hidden`}
+//               >
+//                 <Image src={img.src} alt={img.alt} fill className="object-cover rounded-xl" />
+//               </div>
+//               <p className="text-sm text-[#555770] font-medium text-left mt-4">{img.caption}</p>
 //             </div>
 //           ))}
 //         </div>
 
-//         {/* Modal for Enlarged Image */}
-//         {showModal && (
-//           <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-//             <div className="bg-white rounded-xl overflow-hidden w-11/12 max-w-md relative">
-//               <img src={images[currentIndex]} className="w-full h-[300px] object-cover" />
-//               <div className="flex justify-between px-4 py-2">
-//                 <button
-//                   onClick={() =>
-//                     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
-//                   }
-//                   className="text-[#5598FF] font-bold"
-//                 >
-//                   Prev
-//                 </button>
-//                 <button
-//                   onClick={() =>
-//                     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
-//                   }
-//                   className="text-[#5598FF] font-bold"
-//                 >
-//                   Next
-//                 </button>
-//               </div>
-//               <button
-//                 onClick={() => setShowModal(false)}
-//                 className="absolute top-3 right-4 text-white text-2xl"
-//               >
-//                 ×
-//               </button>
-//             </div>
+//         {/* Preview Button */}
+//         {selected !== null && (
+//           <div className="fixed bottom-6 left-0 right-0 flex justify-center z-40">
+//             <button
+//               onClick={handlePreview}
+//               className="bg-gradient-to-r from-[#5598FF] to-[#7EB1FF] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transition"
+//             >
+//               Preview
+//             </button>
 //           </div>
 //         )}
+//       </div>
 
-//         {/* Bottom Navigation (Desktop) */}
+//       {/* Zoomed Image Modal */}
+//       {zoomedIndex !== null && (
 //         <div
-//           className="fixed bottom-0 left-[150px] right-0 h-24 z-0 flex items-center justify-between px-8 py-4 rounded-t-xl"
-//           style={{
-//             background:
-//               'linear-gradient(178deg, rgba(255, 255, 255, 0.00) 1.93%, #FFFAFA 30.12%)',
-//             backdropFilter: 'blur(22px)',
-//             boxShadow: '0px -2px 6px rgba(0,0,0,0.05)',
-//           }}
+//           onClick={() => setZoomedIndex(null)}
+//           className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
 //         >
-//           <button className="bg-[#5598FF] hover:bg-blue-600 text-white w-9 h-9 rounded-full flex items-center justify-center shadow-md">
-//             <Image src="/assets/Button.svg" alt="Back" width={45} height={45} />
-//           </button>
+//           <div className="relative w-full max-w-[90vw] max-h-[90vh] rounded-2xl overflow-hidden bg-white shadow-xl flex items-center justify-center">
+//             <Image
+//               src={images[zoomedIndex].src}
+//               alt="Zoomed"
+//               fill
+//               className="object-contain w-auto h-auto max-w-full max-h-full rounded-2xl"
+//             />
+//           </div>
+//         </div>
+//       )}
+//     </main>
+//   );
+// }
 
-//           <div className="flex items-center gap-4">
+
+
+
+// 'use client';
+
+// import { useSearchParams, useRouter } from 'next/navigation';
+// import { useState } from 'react';
+// import TopNav from '@/app/components/TopNavbar';
+// import Image from 'next/image';
+
+// const ASPECT_CONFIG = {
+//   '1:1': { aspectClass: 'aspect-square', maxW: 'max-w-[360px]', maxH: 'max-h-[360px]' },
+//   '9:16': { aspectClass: 'aspect-[9/16]', maxW: 'max-w-[270px]', maxH: 'max-h-[480px]' },
+//   '2:3': { aspectClass: 'aspect-[2/3]', maxW: 'max-w-[240px]', maxH: 'max-h-[360px]' },
+//   '3:2': { aspectClass: 'aspect-[3/2]', maxW: 'max-w-[432px]', maxH: 'max-h-[288px]' },
+// };
+
+// export default function DesignsPage() {
+//   const router = useRouter();
+//   const searchParams = useSearchParams();
+//   const [selected, setSelected] = useState<number | null>(null);
+//   const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
+//   const aspect = searchParams.get('aspect') || '1:1';
+
+//   const getImagesByAspect = (aspect) => {
+//     switch (aspect) {
+//       case '1:1':
+//         return [
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Classic square design—perfectly balanced for any layout.' },
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Bold and centered—ideal for Instagram and product shots.' },
+//         ];
+//       case '9:16':
+//         return [
+//           { src: '/resources/SC3.png', alt: 'Shaper_Cult', caption: 'Vertical elegance—tailored for reels and stories.' },
+//           { src: '/resources/SC1.png', alt: 'Shaper_Cult', caption: 'Stand tall—highlight your product’s full length.' },
+//         ];
+//       case '2:3':
+//         return [
+//           { src: '/resources/SC3.png', alt: 'Shaper_Cult', caption: 'Vertical Post—Great for mobile viewing.' },
+//           { src: '/resources/SC1.png', alt: 'Shaper_Cult', caption: 'Attention grabbing vertical format.' },
+//         ];
+//       case '3:2':
+//         return [
+//           { src: '/resources/169.jpg', alt: 'Shaper_Cult', caption: 'Horizontal Post—Wider scene coverage.' },
+//           { src: '/resources/169.jpg', alt: 'Shaper_Cult', caption: 'Ideal for wide product or scenery shots.' },
+//         ];
+//       default:
+//         return [
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Default layout.' },
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Clean and balanced view.' },
+//         ];
+//     }
+//   };
+
+//   const { aspectClass, maxW, maxH } = ASPECT_CONFIG[aspect] || ASPECT_CONFIG['1:1'];
+//   const images = getImagesByAspect(aspect);
+
+//   const handleSelect = (index) => setSelected(index === selected ? null : index);
+
+//   const handlePreview = () => {
+//     if (selected !== null) {
+//       const imageQuery = encodeURIComponent(images[selected].src);
+//       const captionQuery = encodeURIComponent(images[selected].caption);
+//       const aspectQuery = encodeURIComponent(aspect);
+//       router.push(`/preview?images=${imageQuery}&caption=${captionQuery}&aspect=${aspectQuery}`);
+//     }
+//   };
+
+//   const goBackHome = () => router.push('/');
+
+//   return (
+//     <main className="min-h-screen bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] relative">
+//       {/* Top Navbar */}
+//       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] shadow-md">
+//         <TopNav />
+//       </div>
+
+//       <div className="max-w-7xl mx-auto pt-28 pb-32 px-4 text-center">
+//         {/* Back Button */}
+//         <div className="relative mb-10 h-[40px]">
+//           <div className="absolute left-0 top-1/2 -translate-y-1/2">
 //             <button
-//               onClick={() => setActiveStep('Website')}
-//               className={`rounded-[24px] font-medium shadow-md w-[90px] px-4 py-2 text-sm text-white ${
-//                 activeStep === 'Website' ? 'bg-[#5598FF]' : 'bg-[#7EB1FF]'
-//               }`}
+//               onClick={goBackHome}
+//               className="flex items-center gap-2 text-sm text-[#5598FF] font-medium bg-white border border-[#E0E0E0] px-2 py-2 rounded-full shadow-sm hover:bg-[#5598FF] hover:text-white transition"
 //             >
-//               Website
+//               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+//                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+//               </svg>
 //             </button>
+//           </div>
+//           <div className="flex justify-center items-center h-full">
+//             <div className="p-[2px] rounded-full bg-gradient-to-r from-cyan-400/50 to-blue-500/50">
+//               <div className="px-4 py-2 bg-white rounded-full text-sm font-medium text-[#555770]">
+//                 Image Aspect Ratio: <span className="font-semibold">{aspect}</span>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
 
-//             <Image src="/assets/arrow-right.svg" alt="arrow" width={40} height={40} />
-
-//             <button
-//               onClick={() => setActiveStep('Logo')}
-//               className={`rounded-[24px] font-medium shadow-md w-[90px] px-4 py-2 text-sm text-white ${
-//                 activeStep === 'Logo' ? 'bg-[#5598FF]' : 'bg-[#7EB1FF]'
-//               }`}
+//         {/* Cards */}
+//         <div className="flex flex-wrap justify-center gap-8">
+//           {images.map((img, index) => (
+//             <div
+//               key={index}
+//               onClick={() => handleSelect(index)}
+//               className={`flex flex-col items-center bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] rounded-2xl shadow-md overflow-hidden cursor-pointer transition-all duration-300 p-4
+//                 ${selected === index ? 'border-2 border-[#5598FF] bg-[#EAF2FF]' : 'border border-transparent'}
+//                 ${maxW} w-full sm:w-auto`}
+//               style={{ flex: '0 1 auto' }}
 //             >
-//               Logo
-//             </button>
+//               <div
+//                 onClick={(e) => {
+//                   e.stopPropagation();
+//                   setZoomedIndex(index);
+//                 }}
+//                 className={`relative w-full ${aspectClass} ${maxW} ${maxH} rounded-xl overflow-hidden flex items-center justify-center bg-white`}
+//               >
+//                 <Image src={img.src} alt={img.alt} fill className="object-cover rounded-xl" />
+//               </div>
+//               <p className="text-sm text-[#555770] font-medium text-left mt-4">{img.caption}</p>
+//             </div>
+//           ))}
+//         </div>
 
-//             <Image src="/assets/arrow-right.svg" alt="arrow" width={40} height={40} />
-
+//         {/* Preview Button */}
+//         {selected !== null && (
+//           <div className="fixed bottom-6 left-0 right-0 flex justify-center z-40">
 //             <button
-//               onClick={() => setShowBrandKit(!showBrandKit)}
-//               className="w-[54px] h-[54px] flex items-center justify-center transition-transform hover:scale-105"
+//               onClick={handlePreview}
+//               className="bg-gradient-to-r from-[#5598FF] to-[#7EB1FF] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transition"
+//             >
+//               Preview
+//             </button>
+//           </div>
+//         )}
+//       </div>
+
+//       {/* Zoomed Image Modal */}
+//       {zoomedIndex !== null && (
+//         <div
+//           onClick={() => setZoomedIndex(null)}
+//           className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-2"
+//         >
+//           <div className="bg-transparent rounded-2xl flex items-center justify-center w-full h-full max-h-screen max-w-screen-lg">
+//             <div
+//               className={`relative w-full h-full flex items-center justify-center`}
+//               style={{
+//                 maxWidth: '90vw',
+//                 maxHeight: '90vh',
+//                 aspectRatio:
+//                   aspect === '1:1'
+//                     ? '1 / 1'
+//                     : aspect === '9:16'
+//                     ? '9 / 16'
+//                     : aspect === '2:3'
+//                     ? '2 / 3'
+//                     : aspect === '3:2'
+//                     ? '3 / 2'
+//                     : '1 / 1',
+//               }}
 //             >
 //               <Image
-//                 src={
-//                   showBrandKit
-//                     ? '/assets/CancelAction.svg'
-//                     : '/assets/Add.svg'
-//                 }
-//                 alt="Toggle Brand Kit"
-//                 width={54}
-//                 height={54}
+//                 src={images[zoomedIndex].src}
+//                 alt="Zoomed"
+//                 fill
+//                 className="object-contain rounded-xl"
+//                 sizes="(max-width: 800px) 90vw, 800px"
+//                 priority
 //               />
-//             </button>
-
-//             {showBrandKit && (
-//               <>
-//                 <Image src="/assets/arrow-right.svg" alt="arrow" width={40} height={40} />
-//                 <button
-//                   onClick={() => setActiveStep('Brand Kit')}
-//                   className={`rounded-[24px] font-medium shadow-md w-[110px] px-4 py-2 text-sm text-white ${
-//                     activeStep === 'Brand Kit' ? 'bg-[#5598FF]' : 'bg-[#7EB1FF]'
-//                   }`}
-//                 >
-//                   Brand Kit
-//                 </button>
-//               </>
-//             )}
+//             </div>
 //           </div>
-
-//           <button
-//             onClick={handlePreviewEdit}
-//             disabled={selected.length === 0}
-//             className="bg-[#5598FF] hover:bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-medium flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed shadow"
-//           >
-//             <span>Preview Edit</span>
-//             <FiChevronRight className="text-lg" />
-//           </button>
 //         </div>
-
-//         {/* Bottom Navigation (Mobile) */}
-//         <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 space-y-3 z-50">
-//           <button
-//             onClick={() => setActiveStep('Website')}
-//             className={`w-full py-2 rounded-full font-semibold text-sm ${
-//               activeStep === 'Website' ? 'bg-[#5598FF] text-white' : 'bg-[#A9CFFF] text-white'
-//             }`}
-//           >
-//             Website
-//           </button>
-
-//           <button
-//             onClick={() => setActiveStep('Logo')}
-//             className={`w-full py-2 rounded-full font-semibold text-sm ${
-//               activeStep === 'Logo' ? 'bg-[#5598FF] text-white' : 'bg-[#A9CFFF] text-white'
-//             }`}
-//           >
-//             Logo
-//           </button>
-
-//           <button
-//             onClick={() => setShowBrandKit(!showBrandKit)}
-//             className="w-full py-2 rounded-full bg-[#A9CFFF] text-white font-semibold text-sm"
-//           >
-//             {showBrandKit ? 'Remove Brand Kit' : 'Add Brand Kit'}
-//           </button>
-
-//           {showBrandKit && (
-//             <button
-//               onClick={() => setActiveStep('Brand Kit')}
-//               className={`w-full py-2 rounded-full font-semibold text-sm ${
-//                 activeStep === 'Brand Kit' ? 'bg-[#5598FF] text-white' : 'bg-[#A9CFFF] text-white'
-//               }`}
-//             >
-//               Brand Kit
-//             </button>
-//           )}
-
-//           <button
-//             onClick={handlePreviewEdit}
-//             disabled={selected.length === 0}
-//             className="w-full py-2 rounded-full bg-[#5598FF] text-white font-semibold text-sm disabled:opacity-50"
-//           >
-//             Preview Edit
-//           </button>
-//         </div>
-//       </div>
+//       )}
 //     </main>
 //   );
 // }
@@ -623,264 +519,371 @@
 
 
 
-
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import TopNav from '@/app/components/TopNavbar';
-import Sidebar from '@/app/components/Sidebar';
 import Image from 'next/image';
 
-
-const generateImages = () => {
-  return Array.from({ length: 6 }).map(
-    (_, i) => `https://picsum.photos/seed/${i + 1}/500/390`
-  );
+const ASPECT_CONFIG = {
+  '1:1': { aspectClass: 'aspect-square', maxW: 'w-[360px]', maxH: 'h-[360px]' },
+  '9:16': { aspectClass: 'aspect-[9/16]', maxW: 'w-[270px]', maxH: 'h-[480px]' },
+  '2:3': { aspectClass: 'aspect-[2/3]', maxW: 'w-[240px]', maxH: 'h-[360px]' },
+  '3:2': { aspectClass: 'aspect-[3/2]', maxW: 'w-[360px]', maxH: 'h-[240px]' },
 };
 
-export default function DesignsPage() {
-  const route = useRouter();
-  const [selected, setSelected] = useState<number[]>([]);
-  const [activeStep, setActiveStep] = useState('Website');
-  const [showBrandKit, setShowBrandKit] = useState(false);
-  const [showMobileOptions, setShowMobileOptions] = useState(false);
-  const images = generateImages();
+const VALID_ASPECTS = Object.keys(ASPECT_CONFIG);
 
-  const toggleSelect = (index: number) => {
-    if (selected.includes(index)) {
-      setSelected((prev) => prev.filter((i) => i !== index));
-    } else if (selected.length < 3) {
-      setSelected((prev) => [...prev, index]);
+export default function DesignsPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [selected, setSelected] = useState<number | null>(null);
+  const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
+  const [aspect, setAspect] = useState<string>('1:1');
+
+  useEffect(() => {
+    const paramAspect = searchParams.get('aspect');
+    if (paramAspect && VALID_ASPECTS.includes(paramAspect)) {
+      setAspect(paramAspect);
+    } else {
+      router.replace(`?aspect=1:1`);
+    }
+  }, [searchParams, router]);
+
+  const getImagesByAspect = (aspect: string) => {
+    switch (aspect) {
+      case '1:1':
+        return [
+          { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Classic square design—perfectly balanced for any layout.' },
+          { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Bold and centered—ideal for Instagram and product shots.' },
+        ];
+      case '9:16':
+        return [
+          { src: '/resources/SC3.png', alt: 'Shaper_Cult', caption: 'Vertical elegance—tailored for reels and stories.' },
+          { src: '/resources/SC1.png', alt: 'Shaper_Cult', caption: 'Stand tall—highlight your product’s full length.' },
+        ];
+      case '2:3':
+        return [
+          { src: '/resources/SC3.png', alt: 'Shaper_Cult', caption: 'Vertical Post—Great for mobile viewing.' },
+          { src: '/resources/SC1.png', alt: 'Shaper_Cult', caption: 'Attention grabbing vertical format.' },
+        ];
+      case '3:2':
+        return [
+          { src: '/resources/SC11.png', alt: 'Shaper_Cult', caption: 'Horizontal Post—Wider scene coverage.' },
+          { src: '/resources/SC12.png', alt: 'Shaper_Cult', caption: 'Ideal for wide product or scenery shots.' },
+        ];
+      default:
+        return [
+          { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Default layout.' },
+          { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Clean and balanced view.' },
+        ];
     }
   };
 
-  const handlePreviewEdit = () => {
-    const selectedImages = selected.map((i) => encodeURIComponent(images[i]));
-    const query = selectedImages.join(',');
-    route.push(`/preview?images=${query}`);
+  const { aspectClass, maxW, maxH } = ASPECT_CONFIG[aspect] || ASPECT_CONFIG['1:1'];
+  const images = getImagesByAspect(aspect);
+
+  const handleSelect = (index: number) => {
+    setSelected(index === selected ? null : index);
+  };
+
+  const handlePreview = () => {
+    if (selected !== null) {
+      const imageQuery = encodeURIComponent(images[selected].src);
+      const captionQuery = encodeURIComponent(images[selected].caption);
+      const aspectQuery = encodeURIComponent(aspect);
+      router.push(`/preview?images=${imageQuery}&caption=${captionQuery}&aspect=${aspectQuery}`);
+    }
+  };
+
+  const goBackHome = () => {
+    router.push(`/?aspect=${aspect}`);
   };
 
   return (
-    <main className="bg-[#FAF9FC] min-h-screen">
-      {/* Desktop View */}
-      <div className="hidden md:block">
-        <div className="fixed top-0 z-40 w-full">
-          <TopNav />
-        </div>
-        <Sidebar />
-        
-        <div className="pl-56 pr-3 pt-[130px] pb-32">
-          <div className="flex flex-wrap gap-4 justify-start">
-            {images.map((img, index) => (
-              <div
-                key={index}
-                onClick={() => toggleSelect(index)}
-                className={`rounded-[30px] shadow-md cursor-pointer transition-all duration-200 overflow-hidden border-2 ${
-                  selected.includes(index)
-                    ? 'bg-[#C3DBFF]'
-                    : 'bg-white border-transparent'
-                }`}
-                style={{
-                  width: 'calc((100% - 64px) / 3)',
-                  height: '473.33px',
-                  paddingTop: '20px',
-                  paddingLeft: '16px',
-                  paddingRight: '15px',
-                }}
-              >
-                <div className="h-[384px] w-full">
-                  <img
-                    src={img}
-                    alt={`Design ${index + 1}`}
-                    className="w-full h-full object-cover rounded-2xl"
-                  />
-                </div>
-                <div className="text-center text-[#555770] font-bold text-xl py-4">
-                  Description
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Desktop Bottom Navigation */}
-        <div className="fixed bottom-0 left-[150px] right-0 h-24 z-30 flex items-center justify-between px-8 py-4 rounded-t-xl bg-white/80 backdrop-blur-[22px] border-t border-gray-200">
-          <button 
-            onClick={() => route.back()}
-            className="bg-[#5598FF] hover:bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-md"
-          >
-          <Image src='./assets/Button.svg' alt='' width={46} height={46}/>
-          </button>
-
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setActiveStep('Website')}
-              className={`rounded-[24px] font-medium shadow-md w-[90px] px-4 py-2 text-sm text-white ${
-                activeStep === 'Website' ? 'bg-[#5598FF]' : 'bg-[#7EB1FF]'
-              }`}
-            >
-              Website
-            </button>
-
-            <Image src='./assets/arrow-right.svg' alt='' width={55} height={55}/>
-
-            <button
-              onClick={() => setActiveStep('Logo')}
-              className={`rounded-[24px] font-medium shadow-md w-[90px] px-4 py-2 text-sm text-white ${
-                activeStep === 'Logo' ? 'bg-[#5598FF]' : 'bg-[#7EB1FF]'
-              }`}
-            >
-              Logo
-            </button>
-
-            <Image src='./assets/arrow-right.svg' alt='' width={55} height={55}/>
-
-            <button
-  onClick={() => setShowBrandKit(!showBrandKit)}
-  className="w-[54px] h-[54px] flex items-center justify-center transition-transform hover:scale-105"
->
-  <Image
-    src={showBrandKit ? '/assets/Cross.svg' : '/assets/Add.svg'}
-    alt="Toggle Brand Kit"
-    width={40}
-    height={40}
-  />
-</button>
-
-            {showBrandKit && (
-              <>
-                <Image src='./assets/arrow-right.svg' alt='' width={55} height={55}/>
-
-                <button
-                  onClick={() => setActiveStep('Brand Kit')}
-                  className={`rounded-[24px] font-medium shadow-md w-[110px] px-4 py-2 text-sm text-white ${
-                    activeStep === 'Brand Kit' ? 'bg-[#5598FF]' : 'bg-[#7EB1FF]'
-                  }`}
-                >
-                  Brand Kit
-                </button>
-              </>
-            )}
-          </div>
-
-          <button
-            onClick={handlePreviewEdit}
-            disabled={selected.length === 0}
-            className="bg-[#5598FF] hover:bg-blue-600 text-white px-6 py-3 rounded-full text-sm font-medium flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed shadow"
-          >
-            <span>Preview Edit</span>
-            <Image src='./assets/next.svg' alt='' width={10} height={10}/>
-
-          </button>
-        </div>
+    <main className="min-h-screen bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] relative">
+      {/* Top Navbar */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] shadow-md">
+        <TopNav />
       </div>
 
-      {/* Mobile View */}
-      <div className="md:hidden">
-        <TopNav />
-        
-        <div className="p-4 mt-8 grid grid-cols-2 gap-4 pb-28">
-          {images.map((img, idx) => (
-            <div
-              key={idx}
-              onClick={() => toggleSelect(idx)}
-              className={`relative aspect-[3/4] w-full rounded-xl overflow-hidden shadow-md cursor-pointer transition-all duration-200 bg-white p-2 ${
-                selected.includes(idx)
-                  ? ' bg-[#7EB1FF]'
-                  : 'hover:shadow-lg'
-              }`}
+      <div className="max-w-7xl mx-auto pt-28 pb-32 px-4 text-center">
+        {/* Back Button */}
+        <div className="relative mb-10 h-[40px]">
+          <div className="absolute left-0 top-1/2 -translate-y-1/2">
+            <button
+              onClick={goBackHome}
+              className="flex items-center gap-2 text-sm text-[#5598FF] font-medium bg-white border border-[#E0E0E0] px-2 py-2 rounded-full shadow-sm hover:bg-[#5598FF] hover:text-white transition"
             >
-              <img
-                src={img}
-                alt={`Design ${idx}`}
-                className="w-full h-[85%] object-cover rounded-lg"
-              />
-              {selected.includes(idx) && (
-                <div className="absolute top-2 right-2 w-6 h-6 bg-[#5598FF] rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">✓</span>
-                </div>
-              )}
-              <div className="p-1 text-center">
-                <p className="text-xs font-medium text-gray-700">Design {idx + 1}</p>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+          </div>
+          <div className="flex justify-center items-center h-full">
+            <div className="p-[2px] rounded-full bg-gradient-to-r from-cyan-400/50 to-blue-500/50">
+              <div className="px-4 py-2 bg-white rounded-full text-sm font-medium text-[#555770]">
+                Image Aspect Ratio: <span className="font-semibold">{aspect}</span>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Cards */}
+        <div className="flex flex-wrap justify-center gap-8">
+          {images.map((img, index) => (
+            <div
+              key={index}
+              onClick={() => handleSelect(index)}
+              className={`flex flex-col items-center bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] rounded-2xl shadow-md overflow-hidden cursor-pointer transition-all duration-300 p-4
+                ${selected === index ? 'border-2 border-[#5598FF] bg-[#EAF2FF]' : 'border border-transparent'}
+                ${maxW} w-full sm:w-auto`}
+              style={{ flex: '0 1 auto' }}
+            >
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setZoomedIndex(index);
+                }}
+                className={`relative w-full ${aspectClass} ${maxW} ${maxH} rounded-xl overflow-hidden flex items-center justify-center bg-white`}
+              >
+                <Image src={img.src} alt={img.alt} fill className="object-cover rounded-xl" />
+              </div>
+              <p className="text-sm text-[#555770] font-medium text-left mt-4">{img.caption}</p>
             </div>
           ))}
         </div>
 
-        {/* Mobile Preview Button - Only shows when images are selected */}
-        {selected.length > 0 && (
-          <div className="fixed bottom-4 left-4 right-4 z-0">
+        {/* Preview Button */}
+        {selected !== null && (
+          <div className="fixed bottom-6 left-0 right-0 flex justify-center z-40">
             <button
-              onClick={handlePreviewEdit}
-              className="w-[70%] h-auto bg-gradient-to-r from-[#5598FF] to-[#7EB1FF] text-white py-4 px-4 rounded-4xl font-bold shadow-lg flex items-center justify-center gap-2"
+              onClick={handlePreview}
+              className="bg-gradient-to-r from-[#5598FF] to-[#7EB1FF] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transition"
             >
-              <span>Preview Edit</span>
-              <Image src='./assets/next.svg' alt='' width={10} height={10}/>
-
+              Preview
             </button>
           </div>
         )}
-
-        {/* Mobile Settings Button */}
-        {!showMobileOptions && (
-          <button
-            onClick={() => setShowMobileOptions(true)}
-            className="fixed bottom-4 right-4 w-14 h-14 bg-gradient-to-r from-[#5598FF] to-[#7EB1FF] rounded-full flex items-center justify-center shadow-lg z-50"
-          >
-           <Image src='./assets/AddMore.svg' alt='' width={55} height={55}/>
-
-          </button>
-        )}
-
-        {/* Mobile Options Popup - Redesigned */}
-        {showMobileOptions && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end z-50">
-            <div 
-              className="bg-white rounded-t-3xl w-full p-6 space-y-6 text-black"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex justify-between items-center">
-                <h3 className="text-xl font-bold text-gray-800">Design Options</h3>
-                <button 
-                  onClick={() => setShowMobileOptions(false)}
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200"
-                >
-                  <Image src='./assets/next.svg' alt='' width={10} height={10}/>
-
-                </button>
-              </div>
-
-              <div className="space-y-3">
-                {[
-                  { id: 'Website', icon: '🌐', label: 'Website' },
-                  { id: 'Logo', icon: '🎨', label: 'Logo' },
-                  { id: 'Brand Kit', icon: '📦', label: 'Brand Kit' }
-                ].map((option) => (
-                  <button
-                    key={option.id}
-                    onClick={() => {
-                      setActiveStep(option.id);
-                      if (option.id === 'Brand Kit') setShowBrandKit(true);
-                    }}
-                    className={`w-full flex items-center gap-4 py-4 px-4 rounded-md transition ${
-                      activeStep === option.id ? 'ring-2 ring-[#84caf0] text-black' : 'bg-gray-100'
-                    }`}
-                  >
-                    <span className="text-2xl">{option.icon}</span>
-                    <span className="font-semibold">{option.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div 
-              className="absolute inset-0 -z-10"
-              onClick={() => setShowMobileOptions(false)}
-            />
-          </div>
-        )}
       </div>
+
+      {/* Zoomed Image Modal */}
+      {zoomedIndex !== null && (
+        <div
+          onClick={() => setZoomedIndex(null)}
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-2"
+        >
+          <div className="rounded-2xl flex items-center justify-center w-full h-full max-h-screen max-w-screen-lg">
+            <div
+              className={`relative w-full h-full flex items-center justify-center`}
+              style={{
+                maxWidth: '90vw',
+                maxHeight: '90vh',
+                aspectRatio:
+                  aspect === '1:1'
+                    ? '1 / 1'
+                    : aspect === '9:16'
+                    ? '9 / 16'
+                    : aspect === '2:3'
+                    ? '2 / 3'
+                    : aspect === '3:2'
+                    ? '3 / 2'
+                    : '1 / 1',
+              }}
+            >
+              <Image
+                src={images[zoomedIndex].src}
+                alt="Zoomed"
+                fill
+                className="object-contain rounded-xl"
+                sizes="(max-width: 800px) 90vw, 800px"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
+
+
+
+
+
+
+// 'use client';
+
+// import { useSearchParams, useRouter } from 'next/navigation';
+// import { useState } from 'react';
+// import TopNav from '@/app/components/TopNavbar';
+// import Image from 'next/image';
+
+// const ASPECT_CONFIG = {
+//   '1:1':   { aspectClass: 'aspect-square',      maxW: 'w-[360px]', maxH: 'h-[360px]' },
+//   '9:16':  { aspectClass: 'aspect-[9/16]',      maxW: 'w-[270px]', maxH: 'h-[480px]' },
+//   '2:3':   { aspectClass: 'aspect-[2/3]',       maxW: 'w-[240px]', maxH: 'h-[360px]' },
+//   '3:2':   { aspectClass: 'aspect-[3/2]',       maxW: 'w-[360px]', maxH: 'h-[240px]' }, // updated for larger size
+// };
+
+// export default function DesignsPage() {
+//   const router = useRouter();
+//   const searchParams = useSearchParams();
+//   const [selected, setSelected] = useState<number | null>(null);
+//   const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
+//   const aspect = searchParams.get('aspect') || '1:1';
+
+//   const getImagesByAspect = (aspect) => {
+//     switch (aspect) {
+//       case '1:1':
+//         return [
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Classic square design—perfectly balanced for any layout.' },
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Bold and centered—ideal for Instagram and product shots.' },
+//         ];
+//       case '9:16':
+//         return [
+//           { src: '/resources/SC3.png', alt: 'Shaper_Cult', caption: 'Vertical elegance—tailored for reels and stories.' },
+//           { src: '/resources/SC1.png', alt: 'Shaper_Cult', caption: 'Stand tall—highlight your product’s full length.' },
+//         ];
+//       case '2:3':
+//         return [
+//           { src: '/resources/SC3.png', alt: 'Shaper_Cult', caption: 'Vertical Post—Great for mobile viewing.' },
+//           { src: '/resources/SC1.png', alt: 'Shaper_Cult', caption: 'Attention grabbing vertical format.' },
+//         ];
+//       case '3:2':
+//         return [
+//           { src: '/resources/SC11.png', alt: 'Shaper_Cult', caption: 'Horizontal Post—Wider scene coverage.' },
+//           { src: '/resources/SC12.png', alt: 'Shaper_Cult', caption: 'Ideal for wide product or scenery shots.' },
+//         ];
+//       default:
+//         return [
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Default layout.' },
+//           { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Clean and balanced view.' },
+//         ];
+//     }
+//   };
+
+//   const { aspectClass, maxW, maxH } = ASPECT_CONFIG[aspect] || ASPECT_CONFIG['1:1'];
+//   const images = getImagesByAspect(aspect);
+
+//   const handleSelect = (index) => setSelected(index === selected ? null : index);
+
+//   const handlePreview = () => {
+//     if (selected !== null) {
+//       const imageQuery = encodeURIComponent(images[selected].src);
+//       const captionQuery = encodeURIComponent(images[selected].caption);
+//       const aspectQuery = encodeURIComponent(aspect);
+//       router.push(`/preview?images=${imageQuery}&caption=${captionQuery}&aspect=${aspectQuery}`);
+//     }
+//   };
+
+//   const goBackHome = () => router.push('/');
+
+//   return (
+//     <main className="min-h-screen bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] relative">
+//       {/* Top Navbar */}
+//       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] shadow-md">
+//         <TopNav />
+//       </div>
+
+//       <div className="max-w-7xl mx-auto pt-28 pb-32 px-4 text-center">
+//         {/* Back Button */}
+//         <div className="relative mb-10 h-[40px]">
+//           <div className="absolute left-0 top-1/2 -translate-y-1/2">
+//             <button
+//               onClick={goBackHome}
+//               className="flex items-center gap-2 text-sm text-[#5598FF] font-medium bg-white border border-[#E0E0E0] px-2 py-2 rounded-full shadow-sm hover:bg-[#5598FF] hover:text-white transition"
+//             >
+//               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+//                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+//               </svg>
+//             </button>
+//           </div>
+//           <div className="flex justify-center items-center h-full">
+//             <div className="p-[2px] rounded-full bg-gradient-to-r from-cyan-400/50 to-blue-500/50">
+//               <div className="px-4 py-2 bg-white rounded-full text-sm font-medium text-[#555770]">
+//                 Image Aspect Ratio: <span className="font-semibold">{aspect}</span>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Cards */}
+//         <div className="flex flex-wrap justify-center gap-8">
+//           {images.map((img, index) => (
+//             <div
+//               key={index}
+//               onClick={() => handleSelect(index)}
+//               className={`flex flex-col items-center bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] rounded-2xl shadow-md overflow-hidden cursor-pointer transition-all duration-300 p-4
+//                 ${selected === index ? 'border-2 border-[#5598FF] bg-[#EAF2FF]' : 'border border-transparent'}
+//                 ${maxW} w-full sm:w-auto`}
+//               style={{ flex: '0 1 auto' }}
+//             >
+//               <div
+//                 onClick={(e) => {
+//                   e.stopPropagation();
+//                   setZoomedIndex(index);
+//                 }}
+//                 className={`relative w-full ${aspectClass} ${maxW} ${maxH} rounded-xl overflow-hidden flex items-center justify-center bg-white`}
+//               >
+//                 <Image src={img.src} alt={img.alt} fill className="object-cover rounded-xl" />
+//               </div>
+//               <p className="text-sm text-[#555770] font-medium text-left mt-4">{img.caption}</p>
+//             </div>
+//           ))}
+//         </div>
+
+//         {/* Preview Button */}
+//         {selected !== null && (
+//           <div className="fixed bottom-6 left-0 right-0 flex justify-center z-40">
+//             <button
+//               onClick={handlePreview}
+//               className="bg-gradient-to-r from-[#5598FF] to-[#7EB1FF] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transition"
+//             >
+//               Preview
+//             </button>
+//           </div>
+//         )}
+//       </div>
+
+//       {/* Zoomed Image Modal */}
+//       {zoomedIndex !== null && (
+//         <div
+//           onClick={() => setZoomedIndex(null)}
+//           className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-2"
+//         >
+//           <div className="rounded-2xl flex items-center justify-center w-full h-full max-h-screen max-w-screen-lg">
+//             <div
+//               className={`relative w-full h-full flex items-center justify-center`}
+//               style={{
+//                 maxWidth: '90vw',
+//                 maxHeight: '90vh',
+//                 aspectRatio:
+//                   aspect === '1:1'
+//                     ? '1 / 1'
+//                     : aspect === '9:16'
+//                     ? '9 / 16'
+//                     : aspect === '2:3'
+//                     ? '2 / 3'
+//                     : aspect === '3:2'
+//                     ? '3 / 2'
+//                     : '1 / 1',
+//               }}
+//             >
+//               <Image
+//                 src={images[zoomedIndex].src}
+//                 alt="Zoomed"
+//                 fill
+//                 className="object-contain rounded-xl"
+//                 sizes="(max-width: 800px) 90vw, 800px"
+//                 priority
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </main>
+//   );
+// }

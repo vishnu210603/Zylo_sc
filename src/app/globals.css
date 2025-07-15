@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #F5F7FA;
   --foreground: #171717;
   
 }
@@ -24,4 +24,44 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes draw-check {
+  0% {
+    stroke-dashoffset: 24;
+  }
+
+  30% {
+    stroke-dashoffset: 0;
+  }
+
+  70% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 24;
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 2.5s linear infinite;
+}
+
+.animate-draw-reset .check-path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: draw-check 2.5s ease-in-out infinite;
 }
