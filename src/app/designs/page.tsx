@@ -567,7 +567,8 @@ export default function DesignsPage() {
 }, [searchParams, router]);
 
 
-  const getImagesByAspect = (aspect: string) => {
+  const getImagesByAspect = (aspect: AspectRatio) => {
+
     switch (aspect) {
       case '1:1':
         return [
