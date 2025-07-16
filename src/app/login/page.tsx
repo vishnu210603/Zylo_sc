@@ -401,12 +401,17 @@
 
 
 
-
 import LoginClient from './LoginClient';
 
-export default function LoginPage() {
-  return <LoginClient />;
+export default function LoginPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const redirect = typeof searchParams.redirect === 'string' ? searchParams.redirect : '/';
+  return <LoginClient redirect={redirect} />;
 }
+
 
 
 
