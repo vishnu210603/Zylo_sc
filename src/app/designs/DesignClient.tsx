@@ -170,6 +170,8 @@
 // }
 
 
+
+
 'use client';
 export const dynamic = 'force-dynamic';
 
@@ -178,59 +180,69 @@ import { useState } from 'react';
 import TopNav from '@/app/components/TopNavbar';
 import Image from 'next/image';
 
-export default function DesignsClient() {
+export default function DesignsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selected, setSelected] = useState<number | null>(null);
   const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
   const aspect = searchParams.get('aspect') || '1:1';
 
+  // Allowed aspect ratios
+  const allowedAspects = ['1:1', '2:3', '3:2'];
+
+  // Redirect to default if aspect is invalid
+  if (!allowedAspects.includes(aspect)) {
+    router.push('/designs?aspect=1:1');
+    return null;
+  }
+
   const getImagesByAspect = (aspect: string) => {
     switch (aspect) {
       case '1:1':
         return [
-          { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Classic square design—perfectly balanced for any layout.' },
-          { src: '/resources/11.png', alt: 'Shaper_Cult', caption: 'Bold and centered—ideal for Instagram and product shots.' },
+          {
+            src: '/resources/11.png',
+            alt: 'Shaper_Cult',
+            caption: 'Classic square design—perfectly balanced for any layout.',
+          },
+          {
+            src: '/resources/SC13.png',
+            alt: 'Shaper_Cult',
+            caption: 'Bold and centered—ideal for Instagram and product shots.',
+          },
         ];
-      case '9:16':
+      case '2:3':
         return [
-          { src: '/resources/SC3.png', alt: 'Shaper_Cult', caption: 'Vertical elegance—tailored for reels and stories.' },
-          { src: '/resources/SC1.png', alt: 'Shaper_Cult', caption: 'Stand tall—highlight your product’s full length.' },
+          {
+            src: '/resources/SC14.png',
+            alt: 'Shaper_Cult',
+            caption: 'Tall format—great for posters and vertical storytelling.',
+          },
+          {
+            src: '/resources/SC15.png',
+            alt: 'Shaper_Cult',
+            caption: 'Highlight your product vertically in stunning proportion.',
+          },
         ];
-      case '16:9':
+      case '3:2':
         return [
-          { src: '/resources/169.jpg', alt: 'Shaper_Cult', caption: 'Wide format—great for web banners and YouTube.' },
-          { src: '/resources/169.jpg', alt: 'Shaper_Cult', caption: 'Panoramic view—showcase more, scroll less.' },
-        ];
-      case '4:5':
-        return [
-          { src: '/resources/45.jpg', alt: 'Shaper_Cult', caption: 'Perfectly portrait—optimized for feed engagement.' },
-          { src: '/resources/45.jpg', alt: 'Shaper_Cult', caption: 'Focus in—capture detail with portrait perfection.' },
+          {
+            src: '/resources/SC10.png',
+            alt: 'Shaper_Cult',
+            caption: 'Landscape format—perfect for cinematic and print visuals.',
+          },
+          {
+            src: '/resources/SC11.png',
+            alt: 'Shaper_Cult',
+            caption: 'Wide yet focused—balanced for all screens.',
+          },
         ];
       default:
-        return [
-          { src: '/resources/11.jpg', alt: 'Shaper_Cult', caption: 'Default square layout.' },
-          { src: '/resources/11.jpg', alt: 'Shaper_Cult', caption: 'Square style with clean composition.' },
-        ];
-    }
-  };
-
-  const getAspectClass = () => {
-    switch (aspect) {
-      case '4:5':
-        return 'aspect-[4/5] w-[320px] h-[400px]';
-      case '9:16':
-        return 'aspect-[9/16] h-[460px]';
-      case '16:9':
-        return 'aspect-[16/9] h-[270px]';
-      case '1:1':
-      default:
-        return 'aspect-square w-[360px]';
+        return [];
     }
   };
 
   const images = getImagesByAspect(aspect);
-  const aspectClass = getAspectClass();
 
   const handleSelect = (index: number) => {
     setSelected(index === selected ? null : index);
@@ -251,13 +263,13 @@ export default function DesignsClient() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] relative">
-      {/* Top Navbar */}
+      {/* Top Navigation */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] shadow-md">
         <TopNav />
       </div>
 
       <div className="max-w-7xl mx-auto pt-28 pb-32 px-4 text-center">
-        {/* Back Button */}
+        {/* Back Button and Aspect Label */}
         <div className="relative mb-10 h-[40px]">
           <div className="absolute left-0 top-1/2 -translate-y-1/2">
             <button
@@ -269,7 +281,6 @@ export default function DesignsClient() {
               </svg>
             </button>
           </div>
-
           <div className="flex justify-center items-center h-full">
             <div className="p-[2px] rounded-full bg-gradient-to-r from-cyan-400/50 to-blue-500/50">
               <div className="px-4 py-2 bg-white rounded-full text-sm font-medium text-[#555770]">
@@ -280,29 +291,47 @@ export default function DesignsClient() {
         </div>
 
         {/* Cards */}
-        <div className="flex flex-col sm:flex-row justify-center items-stretch gap-10">
-          {images.map((img, index) => (
-            <div
-              key={index}
-              onClick={() => handleSelect(index)}
-              className={`${
-                aspect === '16:9' ? 'w-[480px]' : 'sm:w-[320px]'
-              } bg-gradient-to-br from-[#e0f7fa] via-[#f5f7ff] to-[#d9e6ff] rounded-2xl shadow-md overflow-hidden cursor-pointer transition-all duration-300 p-4 ${
-                selected === index ? 'border-2 border-[#5598FF] bg-[#EAF2FF]' : 'border border-transparent'
-              }`}
-            >
+        <div className="flex flex-col lg:flex-row justify-center gap-6 items-stretch">
+          {images.map((img, index) => {
+            const isActive = selected === index;
+            return (
               <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setZoomedIndex(index);
-                }}
-                className={`relative w-full rounded-xl overflow-hidden ${aspectClass}`}
+                key={index}
+                onClick={() => handleSelect(index)}
+                className={`flex flex-col rounded-2xl shadow-md overflow-hidden border w-full max-w-md max-h-[80vh] transition-colors duration-300 cursor-pointer ${
+                  isActive
+                    ? 'bg-gradient-to-tr from-[#7ac7f5] via-[#6284fa] to-[#b17ef7] border-blue-300'
+                    : 'bg-white border-gray-200'
+                }`}
+                style={isActive ? { boxShadow: '0 6px 34px #c0dbfc55' } : {}}
               >
-                <Image src={img.src} alt={img.alt} fill className="object-cover rounded-xl" />
+                <div
+                  className="w-full flex justify-center bg-white relative cursor-zoom-in"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setZoomedIndex(index);
+                  }}
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    width={300}
+                    height={300}
+                    className="object-contain pointer-events-auto"
+                  />
+                </div>
+                <div className="flex-1 min-h-[60px] bg-[#F6F8FC] p-4 flex items-stretch">
+                  <div
+                    className={`w-full rounded-xl text-sm font-medium text-left min-h-[80px] max-h-[220px] overflow-y-auto px-4 py-3 transition-all ${
+                      isActive ? 'text-black' : 'bg-white text-gray-800'
+                    }`}
+                  >
+                    <span className="whitespace-pre-wrap block">{img.caption}</span>
+                  </div>
+                </div>
               </div>
-              <p className="text-sm text-[#555770] font-medium text-left mt-4">{img.caption}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Preview Button */}
@@ -318,22 +347,21 @@ export default function DesignsClient() {
         )}
       </div>
 
-      {/* Zoomed Image Modal */}
+      {/* Zoom Modal */}
       {zoomedIndex !== null && (
         <div
           onClick={() => setZoomedIndex(null)}
-          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-white/70 backdrop-blur-lg flex items-center justify-center"
         >
-          <div className="max-h-[90vh] max-w-[90vw] rounded-2xl overflow-hidden bg-white shadow-xl flex items-center justify-center">
-            <div className="relative w-full h-full flex justify-center items-center">
-              <Image
-                src={images[zoomedIndex].src}
-                alt="Zoomed"
-                width={aspect === '9:16' ? 540 : aspect === '16:9' ? 960 : 600}
-                height={aspect === '9:16' ? 960 : aspect === '16:9' ? 540 : 600}
-                className="object-contain max-h-[80vh] w-auto h-auto rounded-2xl"
-              />
-            </div>
+          <div className="relative flex items-center justify-center bg-white rounded-2xl shadow-lg p-4">
+            <Image
+              src={images[zoomedIndex].src}
+              alt="Zoomed"
+              width={600}
+              height={600}
+              className="object-contain rounded-2xl"
+              style={{ maxHeight: '80vh', maxWidth: '90vw', width: 'auto', height: 'auto' }}
+            />
           </div>
         </div>
       )}

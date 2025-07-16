@@ -599,11 +599,213 @@ export default function LoginClient() {
 
         {errorMessage && <p className="text-red-600 text-center mb-4">{errorMessage}</p>}
 
-        {/* Render password reset / phone login / email login */}
-        {/* ... same as your previous UI code, unchanged ... */}
-        {/* (You can paste the form UI block from your previous message here) */}
-        
-        {/* Keep your existing JSX below here exactly as-is... it works! */}
+        {isResetting ? (
+          resetSent ? (
+            <>
+              <p className="text-green-600 text-center mb-4">
+                A password reset link has been sent to your email.
+              </p>
+              <p className="text-center text-sm mt-4">
+                <button onClick={() => setIsResetting(false)} className="text-[#4F82FF] hover:underline">
+                  Back to Sign In
+                </button>
+              </p>
+            </>
+          ) : (
+            <>
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg mb-4 text-black placeholder-gray-500"
+              />
+              <button
+                onClick={handlePasswordReset}
+                disabled={resetLoading}
+                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF]"
+              >
+                {resetLoading ? 'Sending...' : 'Send Reset Link'}
+              </button>
+              <p className="text-center text-sm mt-4">
+                <button onClick={() => setIsResetting(false)} className="text-[#4F82FF] hover:underline">
+                  Back to Sign In
+                </button>
+              </p>
+            </>
+          )
+        ) : usePhone ? (
+          confirmationResult ? (
+            <>
+              <input
+                type="text"
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg mb-4 text-black placeholder-gray-500"
+              />
+              <button
+                onClick={handleVerifyOTP}
+                disabled={loading}
+                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF]"
+              >
+                {loading ? 'Verifying...' : 'Verify OTP'}
+              </button>
+              <p className="text-center text-sm mt-2">
+                Didn't receive the code?{' '}
+                <button
+                  onClick={handleSendOTP}
+                  disabled={resendDisabled}
+                  className={`hover:underline ${
+                    resendDisabled ? 'opacity-50 cursor-not-allowed text-gray-500' : 'text-[#4F82FF]'
+                  }`}
+                >
+                  {resendDisabled ? `Resend in ${resendTimer}s` : 'Resend code'}
+                </button>
+              </p>
+            </>
+          ) : (
+            <>
+              <PhoneInput
+                country={'in'}
+                value={phone}
+                onChange={(value) => setPhone('+' + value)}
+                inputStyle={{
+                  width: '100%',
+                  height: '42px',
+                  color: 'black',
+                }}
+                placeholder="Phone number"
+                containerStyle={{ marginBottom: '1rem' }}
+                dropdownStyle={{ zIndex: 9999 }}
+                enableSearch
+              />
+              <div id="recaptcha-container" />
+              <button
+                onClick={handleSendOTP}
+                disabled={loading}
+                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF]"
+              >
+                {loading ? 'Sending OTP...' : 'Send OTP'}
+              </button>
+              <p className="text-center text-sm mt-4">
+                <button onClick={() => setUsePhone(false)} className="text-[#4F82FF] hover:underline">
+                  Use Email instead
+                </button>
+              </p>
+            </>
+          )
+        ) : (
+          <>
+            <form onSubmit={handleAuth} className="space-y-4">
+              {!isLogin && (
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg text-black placeholder-gray-500"
+                />
+              )}
+              <input
+                type="email"
+                placeholder="Email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg text-black placeholder-gray-500"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg text-black placeholder-gray-500"
+              />
+              {!isLogin && (
+                <>
+                  <input
+                    type="password"
+                    placeholder="Confirm Password"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full px-4 py-2 border rounded-lg text-black placeholder-gray-500"
+                  />
+                  <label className="flex items-center text-sm space-x-2 text-black">
+                    <input
+                      type="checkbox"
+                      checked={agreeTerms}
+                      onChange={(e) => setAgreeTerms(e.target.checked)}
+                    />
+                    <span>
+                      I agree to the{' '}
+                      <a href="#" className="text-[#4F82FF] underline">
+                        Terms & Conditions
+                      </a>
+                    </span>
+                  </label>
+                </>
+              )}
+              {isLogin && (
+                <p className="text-right text-sm">
+                  <button
+                    type="button"
+                    onClick={() => setIsResetting(true)}
+                    className="text-[#4F82FF] hover:underline"
+                  >
+                    Forgot Password?
+                  </button>
+                </p>
+              )}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF]"
+              >
+                {loading ? 'Please wait...' : isLogin ? 'Sign In' : 'Register'}
+              </button>
+            </form>
+
+            <div className="my-4 flex items-center justify-center text-gray-400 text-sm">
+              <div className="w-full border-t border-gray-300" />
+              <span className="mx-2">or</span>
+              <div className="w-full border-t border-gray-300" />
+            </div>
+
+            <button
+              onClick={handleGoogleLogin}
+              disabled={googleLoading}
+              className="w-full py-2 border border-gray-300 rounded-lg flex items-center justify-center space-x-2 hover:bg-gray-50 text-black"
+            >
+              <img
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                alt="Google"
+                className="h-5 w-5"
+              />
+              <span>{googleLoading ? 'Signing in...' : 'Continue with Google'}</span>
+            </button>
+
+            <button
+              onClick={() => setUsePhone(true)}
+              className="mt-4 w-full text-center text-sm text-[#4F82FF] hover:underline"
+            >
+              Use Phone Number instead
+            </button>
+
+            <p className="text-center text-sm text-gray-600 mt-4">
+              {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
+              <button
+                onClick={() => toggleAuthMode(!isLogin)}
+                className="text-[#4F82FF] font-medium hover:underline"
+              >
+                {isLogin ? 'Register' : 'Sign In'}
+              </button>
+            </p>
+          </>
+        )}
       </div>
     </div>
   );

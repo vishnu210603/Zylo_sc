@@ -10,7 +10,6 @@ interface PromptBoxProps {
 
 const aspectRatios = [
   { value: '1:1', label: 'Instagram Square (1:1)' },
-  { value: '9:16', label: 'Instagram Story/Reel (9:16)' },
   { value: '2:3', label: 'Vertical Post' },
   { value: '3:2', label: 'Horizontal Post' },
 ];

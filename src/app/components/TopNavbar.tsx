@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { onAuthStateChanged, signOut, User } from 'firebase/auth';
 import { auth } from '@/app/lib/firebase';
-
+import Image from 'next/image';
 const ZyloTopNavbar = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -61,13 +61,7 @@ const ZyloTopNavbar = () => {
   return (
     <div className="w-full h-20 px-6 py-3 bg-white/60 backdrop-blur-md border-b border-gray-200 shadow-sm flex items-center justify-between z-50 relative">
       {/* Logo */}
-      <svg xmlns="http://www.w3.org/2000/svg" width="139" height="68" viewBox="0 0 139 68" fill="none">
-        {/* Your full SVG content remains unchanged */}
-        <g filter="url(#filter0_d_429_6024)">
-          <path d="M14.3916 8.41016C15.9774 8.41017 17.4278 9.01428 18.5449 10.0137C18.8029 10.2445 19.1297 10.3916 19.4758 10.3916H48.417C53.1267 10.3918 55.5813 15.9984 52.3867 19.459L27.4842 46.4325C26.7388 47.2398 27.3115 48.5479 28.4103 48.5479H53.3841C53.7599 48.5479 54.1112 48.375 54.3756 48.1079C55.5253 46.9467 57.0903 46.2314 58.8154 46.2314C62.3451 46.2316 65.2069 49.2223 65.207 52.9111C65.207 56.6001 62.3452 59.5907 58.8154 59.5908C57.3798 59.5908 56.0558 59.0951 54.9891 58.2597C54.7417 58.0659 54.442 57.9443 54.1278 57.9443H16.4082C11.6984 57.9443 9.24381 52.3376 12.4385 48.877L37.341 21.9034C38.0864 21.0961 37.5137 19.7881 36.4149 19.7881H19.4769C19.1307 19.7881 18.8038 19.9352 18.5458 20.1661C17.4286 21.1657 15.9777 21.7695 14.3916 21.7695C10.8617 21.7695 8 18.7789 8 15.0898C8.00011 11.4008 10.8618 8.41016 14.3916 8.41016Z" fill="url(#paint0_linear_429_6024)" />
-        </g>
-        {/* All other paths and filters from your original SVG stay here */}
-      </svg>
+      <Image src='/assets/Zylo.svg' alt='' width={123} height={51}/>
 
       {/* Right Side - Profile or Sign In */}
       <div className="relative" ref={dropdownRef}>
