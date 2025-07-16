@@ -403,12 +403,13 @@
 
 import LoginClient from './LoginClient';
 
-type Props = {
+export default function LoginPage({
+  searchParams,
+}: {
   searchParams?: { [key: string]: string | string[] | undefined };
-};
-
-export default function LoginPage({ searchParams }: Props) {
+}) {
   const redirect = typeof searchParams?.redirect === 'string' ? searchParams.redirect : '/';
+
   return <LoginClient redirect={redirect} />;
 }
 

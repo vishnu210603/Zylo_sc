@@ -402,6 +402,7 @@
 
 
 'use client';
+export const dynamic = 'force-dynamic';
 
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -427,7 +428,11 @@ declare global {
   }
 }
 
-export default function LoginClient({ redirect }: { redirect: string }) {
+interface LoginClientProps {
+  redirect: string;
+}
+
+export default function LoginClient({ redirect }: LoginClientProps) {
   const router = useRouter();
 
   const [isLogin, setIsLogin] = useState(true);
