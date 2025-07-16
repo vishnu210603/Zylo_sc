@@ -403,12 +403,8 @@
 
 import LoginClient from './LoginClient';
 
-export default function LoginPage({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  return <LoginClient searchParams={searchParams} />;
+export default function LoginPage() {
+  return <LoginClient />;
 }
 
 
