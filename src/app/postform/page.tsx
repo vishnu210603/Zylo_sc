@@ -217,12 +217,15 @@
 
 
 
-// /src/app/postform/page.tsx
-'use client'; // 👈 THIS MAKES THE WHOLE PAGE A CLIENT COMPONENT
-
-import { useSearchParams, useRouter } from 'next/navigation';
-import PostFormClient from './PostformClient'; // ✅ directly import it
+'use client';
+import { Suspense } from 'react';
+import PostFormClient from './PostformClient';
 
 export default function PostFormPage() {
-  return <PostFormClient />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PostFormClient />
+    </Suspense>
+  );
 }
+
