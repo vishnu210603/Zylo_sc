@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Eye, X } from 'lucide-react';
 import Image from 'next/image';
 
-export default function PostFormClient() {
+export default function PostFormPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -17,6 +17,7 @@ export default function PostFormClient() {
   const [tags] = useState('');
   const [linkedin] = useState('');
   const [confirmPost, setConfirmPost] = useState(false);
+
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedback, setFeedback] = useState('');
   const [suggestions, setSuggestions] = useState('');
@@ -37,7 +38,7 @@ export default function PostFormClient() {
 
   return (
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4">
-      {!showFeedback && (
+      {!showFeedback ? (
         <div className="bg-white max-w-md w-full rounded-2xl shadow-xl px-6 py-6 relative">
           <button onClick={() => router.back()} className="absolute top-4 right-4 text-gray-400 hover:text-black">
             <X />
@@ -49,7 +50,6 @@ export default function PostFormClient() {
             </div>
             <h1 className="text-2xl font-semibold text-gray-900">LinkedIn</h1>
           </div>
-
           <p className="text-gray-500 text-sm mb-6">Please enter your username & password to continue</p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -106,14 +106,15 @@ export default function PostFormClient() {
               </label>
             </div>
 
-            <button type="submit" className="w-full py-2 bg-[#5598FF] hover:bg-[#347fe0] text-white rounded-md font-medium text-sm">
+            <button
+              type="submit"
+              className="w-full py-2 bg-[#5598FF] hover:bg-[#347fe0] text-white rounded-md font-medium transition text-sm"
+            >
               Post
             </button>
           </form>
         </div>
-      )}
-
-      {showFeedback && (
+      ) : (
         <div className="bg-white max-w-lg w-full rounded-2xl shadow-xl px-6 py-6 relative animate-fadeIn">
           <button onClick={() => setShowFeedback(false)} className="absolute top-4 right-4 text-gray-400 hover:text-black">
             <X />
@@ -125,13 +126,24 @@ export default function PostFormClient() {
                 <div className="w-full h-full rounded-full border-[6px] border-green-400 border-t-green-600 animate-spin-slow"></div>
               </div>
               <div className="absolute inset-0 flex items-center justify-center bg-white rounded-full shadow-md">
-                <svg className="w-10 h-10 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                  <path d="M5 13l4 4L19 7" />
+                <svg
+                  className="w-10 h-10 text-green-600 animate-draw-reset"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 13l4 4L19 7" className="check-path" />
                 </svg>
               </div>
             </div>
+
             <h2 className="text-xl font-bold text-gray-800 mt-4">Thank you for posting!</h2>
-            <p className="text-[#0063F7] text-sm font-medium mt-1 animate-pulse">We’d love your feedback ✨</p>
+            <p className="text-[#0063F7] text-sm font-medium mt-1 animate-pulse">
+              We’d love your feedback ✨
+            </p>
           </div>
 
           <form onSubmit={handleFeedbackSubmit} className="flex flex-col gap-4 mt-2">
@@ -142,6 +154,7 @@ export default function PostFormClient() {
                 onChange={(e) => setFeedback(e.target.value)}
                 className="w-full px-4 py-2 text-gray-500 border border-gray-300 rounded-md"
                 rows={3}
+                placeholder="The design, speed, ease of use..."
                 required
               />
             </div>
@@ -153,10 +166,14 @@ export default function PostFormClient() {
                 onChange={(e) => setSuggestions(e.target.value)}
                 className="w-full px-4 py-2 text-gray-500 border border-gray-300 rounded-md"
                 rows={3}
+                placeholder="Add more export options, improve editor..."
               />
             </div>
 
-            <button type="submit" className="w-full py-2 bg-[#5598FF] hover:bg-[#347fe0] text-white rounded-md font-medium transition">
+            <button
+              type="submit"
+              className="w-full py-2 bg-[#5598FF] hover:bg-[#347fe0] text-white rounded-md font-medium transition"
+            >
               Submit Feedback
             </button>
           </form>
