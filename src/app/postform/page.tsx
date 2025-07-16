@@ -217,11 +217,11 @@
 
 
 
-import dynamic from 'next/dynamic';
+// /src/app/postform/page.tsx
+'use client'; // 👈 THIS MAKES THE WHOLE PAGE A CLIENT COMPONENT
 
-const PostFormClient = dynamic(() => import('./PostformClient'), {
-  ssr: false,
-});
+import { useSearchParams, useRouter } from 'next/navigation';
+import PostFormClient from './PostformClient'; // ✅ directly import it
 
 export default function PostFormPage() {
   return <PostFormClient />;
