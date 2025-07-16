@@ -203,7 +203,7 @@ export default function LoginClient() {
                 A password reset link has been sent to your email.
               </p>
               <p className="text-center text-sm mt-4">
-                <button onClick={() => setIsResetting(false)} className="text-[#4F82FF] hover:underline">
+                <button onClick={() => setIsResetting(false)} className="text-[#4F82FF] cursor-pointer hover:underline">
                   Back to Sign In
                 </button>
               </p>
@@ -220,12 +220,12 @@ export default function LoginClient() {
               <button
                 onClick={handlePasswordReset}
                 disabled={resetLoading}
-                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF]"
+                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF] cursor-pointer"
               >
                 {resetLoading ? 'Sending...' : 'Send Reset Link'}
               </button>
               <p className="text-center text-sm mt-4">
-                <button onClick={() => setIsResetting(false)} className="text-[#4F82FF] hover:underline">
+                <button onClick={() => setIsResetting(false)} className="text-[#4F82FF] cursor-pointer hover:underline">
                   Back to Sign In
                 </button>
               </p>
@@ -244,7 +244,7 @@ export default function LoginClient() {
               <button
                 onClick={handleVerifyOTP}
                 disabled={loading}
-                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF]"
+                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF] cursor-pointer"
               >
                 {loading ? 'Verifying...' : 'Verify OTP'}
               </button>
@@ -254,7 +254,7 @@ export default function LoginClient() {
                   onClick={handleSendOTP}
                   disabled={resendDisabled}
                   className={`hover:underline ${
-                    resendDisabled ? 'opacity-50 cursor-not-allowed text-black' : 'text-[#4F82FF]'
+                    resendDisabled ? 'opacity-50 cursor-not-allowed text-black' : 'text-[#4F82FF] cursor-pointer'
                   }`}
                 >
                   {resendDisabled ? `Resend in ${resendTimer}s` : 'Resend code'}
@@ -281,12 +281,12 @@ export default function LoginClient() {
               <button
                 onClick={handleSendOTP}
                 disabled={loading}
-                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF]"
+                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF] cursor-pointer"
               >
                 {loading ? 'Sending OTP...' : 'Send OTP'}
               </button>
               <p className="text-center text-sm mt-4">
-                <button onClick={() => setUsePhone(false)} className="text-[#4F82FF] hover:underline">
+                <button onClick={() => setUsePhone(false)} className="text-[#4F82FF] hover:underline cursor-pointer">
                   Use Email instead
                 </button>
               </p>
@@ -351,7 +351,7 @@ export default function LoginClient() {
                   <button
                     type="button"
                     onClick={() => setIsResetting(true)}
-                    className="text-[#4F82FF] hover:underline"
+                    className="text-[#4F82FF] hover:underline cursor-pointer"
                   >
                     Forgot Password?
                   </button>
@@ -360,7 +360,7 @@ export default function LoginClient() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF]"
+                className="w-full py-2 text-white rounded-lg bg-gradient-to-r from-[#8A3FFC] to-[#4F82FF] cursor-pointer"
               >
                 {loading ? 'Please wait...' : isLogin ? 'Sign In' : 'Register'}
               </button>
@@ -375,7 +375,7 @@ export default function LoginClient() {
             <button
               onClick={handleGoogleLogin}
               disabled={googleLoading}
-              className="w-full py-2 border border-gray-300 rounded-lg flex items-center justify-center space-x-2 hover:bg-gray-50 text-black"
+              className="w-full py-2 border border-gray-300 rounded-lg flex items-center justify-center space-x-2 hover:bg-gray-50 text-black cursor-pointer"
             >
               <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -387,7 +387,7 @@ export default function LoginClient() {
 
             <button
               onClick={() => setUsePhone(true)}
-              className="mt-4 w-full text-center text-sm text-[#4F82FF] hover:underline"
+              className="mt-4 w-full text-center text-sm text-[#4F82FF] hover:underline cursor-pointer"
             >
               Use Phone Number instead
             </button>
@@ -396,7 +396,7 @@ export default function LoginClient() {
               {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
               <button
                 onClick={() => toggleAuthMode(!isLogin)}
-                className="text-[#4F82FF] font-medium hover:underline"
+                className="text-[#4F82FF] font-medium hover:underline cursor-pointer"
               >
                 {isLogin ? 'Register' : 'Sign In'}
               </button>

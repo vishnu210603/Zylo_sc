@@ -120,7 +120,7 @@ const PromptBox = ({ onSubmit }: PromptBoxProps) => {
         {/* Send Button */}
         <button
           onClick={handleSend}
-          className="flex items-center justify-center h-9 w-9 rounded-full bg-gradient-to-br from-[#73DFE7] to-[#0063F7] hover:opacity-90 transition"
+          className="flex items-center justify-center h-9 w-9 rounded-full cursor-pointer bg-gradient-to-br from-[#73DFE7] to-[#0063F7] hover:opacity-90 transition"
         >
           <ArrowUp className="w-4 h-4 text-white" />
         </button>

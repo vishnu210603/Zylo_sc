@@ -175,7 +175,7 @@ const [scheduledTime, setScheduledTime] = useState<string>('');
               {/* Schedule Post Button */}
               <button
                 onClick={() => setShowScheduler(true)}
-                className="transition-all hover:scale-105"
+                className="transition-all hover:scale-105 cursor-pointer"
                 title={isScheduled ? 'Edit Schedule' : 'Schedule Post'}
               >
                 {isScheduled ? (
@@ -200,7 +200,7 @@ const [scheduledTime, setScheduledTime] = useState<string>('');
             />
             {isEditing && (
               <div className="mt-4 flex justify-end">
-                <button onClick={() => setIsEditing(false)} className="text-sm bg-[#5598FF] text-white px-4 py-2 rounded-md hover:scale-105">
+                <button onClick={() => setIsEditing(false)} className="text-sm bg-[#5598FF] text-white px-4 py-2 rounded-md cursor-pointer hover:scale-105">
                   Done
                 </button>
               </div>
@@ -252,7 +252,7 @@ const [scheduledTime, setScheduledTime] = useState<string>('');
 
       {showExpandedImage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 backdrop-blur">
-          <button onClick={() => setShowExpandedImage(false)} className="absolute top-7 right-10 z-50 bg-white rounded-full p-2 shadow text-black">
+          <button onClick={() => setShowExpandedImage(false)} className="absolute top-7 right-10 z-50 bg-white rounded-full p-2 shadow text-black cursor-pointer">
             <X size={28} />
           </button>
           <div className="relative z-40" style={{
