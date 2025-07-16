@@ -408,9 +408,7 @@ export default function LoginPage({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const redirect = typeof searchParams?.redirect === 'string' ? searchParams.redirect : '/';
-
-  return <LoginClient redirect={redirect} />;
+  return <LoginClient searchParams={searchParams} />;
 }
 
 
