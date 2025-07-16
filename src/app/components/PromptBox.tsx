@@ -61,7 +61,7 @@ const PromptBox = ({ onSubmit }: PromptBoxProps) => {
 
       {/* Bottom Controls */}
       <div className="flex items-center justify-between mt-2">
-        <div className="flex items-center gap-2 relative">
+        <div className="flex items-center gap-2 relative z-10">
           {/* Upload Button */}
           <label className="cursor-pointer flex items-center justify-center w-9 h-9 border-gray-300 rounded-full hover:bg-gray-100">
             <Plus className="w-4 h-4 text-gray-600" />
@@ -73,8 +73,8 @@ const PromptBox = ({ onSubmit }: PromptBoxProps) => {
             />
           </label>
 
-          {/* Custom Dropdown */}
-          <div className="relative w-full max-w-[140px]">
+          {/* Dropdown Container */}
+          <div className="relative w-full max-w-[140px] z-50">
             <button
               type="button"
               className="flex items-center justify-between gap-1 text-xs border border-gray-300 rounded-md px-3 py-[6px] bg-white text-gray-700 focus:outline-none w-full"
@@ -85,14 +85,16 @@ const PromptBox = ({ onSubmit }: PromptBoxProps) => {
             </button>
 
             {dropdownOpen && (
-              <ul className="absolute left-0 mt-1 w-full text-black bg-white border border-gray-300 rounded-md shadow z-50">
+              <ul className="absolute top-full left-0 mt-1 w-full text-black bg-white border border-gray-300 rounded-md shadow-lg z-50">
                 {aspectRatios.map((ratio) => {
                   const isSelected = ratio.value === aspectRatio;
                   return (
                     <li
                       key={ratio.value}
                       className={`px-4 py-1 text-sm cursor-pointer relative hover:bg-gray-100 rounded-sm ${
-                        isSelected ? 'bg-gradient-to-br from-[#73DFE7] to-[#0063F7] text-white hover:bg-blue-700' : ''
+                        isSelected
+                          ? 'bg-gradient-to-br from-[#73DFE7] to-[#0063F7] text-white hover:bg-blue-700'
+                          : ''
                       }`}
                       onClick={() => {
                         setAspectRatio(ratio.value);
@@ -102,7 +104,7 @@ const PromptBox = ({ onSubmit }: PromptBoxProps) => {
                       onMouseLeave={() => setHoveredItem(null)}
                     >
                       {ratio.value}
-                      {hoveredItem === ratio.value && (ratio.label !== ratio.value) && (
+                      {hoveredItem === ratio.value && ratio.label !== ratio.value && (
                         <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-gray-800 text-white text-xs px-2 py-1 rounded shadow z-50 whitespace-nowrap">
                           {ratio.label}
                         </div>
@@ -126,11 +128,11 @@ const PromptBox = ({ onSubmit }: PromptBoxProps) => {
 
       {/* Image Previews */}
       {attachments.length > 0 && (
-        <div className="flex gap-5 flex-wrap mt-2">
+        <div className="flex gap-5 flex-wrap mt-2 z-0 relative">
           {attachments.map((file, i) => (
             <div
               key={i}
-              className="relative w-[83px] h-[83px] rounded-2xl overflow-visible z-50"
+              className="relative w-[83px] h-[83px] rounded-2xl overflow-visible z-10"
             >
               <img
                 src={URL.createObjectURL(file)}
