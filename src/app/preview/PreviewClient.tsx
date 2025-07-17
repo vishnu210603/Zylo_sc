@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from 'react';
 import TopNav from '@/app/components/TopNavbar';
 import Image from 'next/image';
 import {
-  FaWhatsapp, FaPinterestP, FaXTwitter, FaFacebookF,
-  FaFacebookMessenger, FaInstagram, FaLinkedinIn
+  FaWhatsapp, FaSquareSnapchat, FaXTwitter, FaFacebookF,
+  FaTiktok, FaInstagram, FaLinkedinIn
 } from 'react-icons/fa6';
 import { PiThreadsLogoFill } from 'react-icons/pi';
 import { X } from 'lucide-react';
@@ -109,14 +109,14 @@ const [scheduledTime, setScheduledTime] = useState<string>('');
             {openPopup === 'export' && (
               <div
                 ref={exportRef}
-                className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-white rounded-xl p-3 shadow-xl border flex flex-col gap-4 animate-fadeIn z-[9999] w-12 items-center"
+                className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-white rounded-xl p-3 shadow-xl border flex flex-col gap-5 animate-fadeIn z-[9999] w-12 items-center"
               >
                 {[{ title: 'WhatsApp', icon: <FaWhatsapp size={22} /> },
-                  { title: 'Pinterest', icon: <FaPinterestP size={22} /> },
+                  { title: 'Pinterest', icon: <FaSquareSnapchat size={22} /> },
                   { title: 'Twitter', icon: <FaXTwitter size={22} /> },
                   { title: 'Threads', icon: <PiThreadsLogoFill size={22} /> },
                   { title: 'Facebook', icon: <FaFacebookF size={22} /> },
-                  { title: 'Messenger', icon: <FaFacebookMessenger size={22} /> },
+                  { title: 'Messenger', icon: <FaTiktok size={22} /> },
                   { title: 'Instagram', icon: <FaInstagram size={22} /> },
                   { title: 'LinkedIn', icon: <FaLinkedinIn size={22} className="text-[#0077B5]" /> },
                 ].map(({ title, icon }) => (

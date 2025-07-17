@@ -168,7 +168,7 @@ export default function DesignsPage() {
   <button
     onClick={handlePreview}
     disabled={selected === null}
-    className={`font-bold py-3 px-6 rounded-full shadow-lg transition transform ${
+    className={`font-bold py-3 px-6 rounded-full cursor-pointer shadow-lg transition transform ${
       selected !== null
         ? 'bg-gradient-to-r from-[#5598FF] to-[#7EB1FF] text-white hover:scale-105'
         : 'bg-gray-400 text-white cursor-not-allowed'
@@ -182,11 +182,11 @@ export default function DesignsPage() {
 
       {/* Zoom Modal */}
       {zoomedIndex !== null && (
-  <div className="fixed inset-0 z-50 bg-white/70 backdrop-blur-lg flex items-center justify-center">
+  <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-lg flex items-center justify-center">
     {/* Close icon */}
     <button
       onClick={() => setZoomedIndex(null)}
-      className="absolute top-6 right-6 md:top-8 md:right-8 z-50 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition"
+      className="absolute top-6 right-6 md:top-8 md:right-8 z-50 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition cursor-pointer"
       aria-label="Close zoomed image"
     >
       <svg
