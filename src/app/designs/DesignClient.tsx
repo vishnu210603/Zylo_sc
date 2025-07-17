@@ -122,16 +122,17 @@ export default function DesignsPage() {
             const isActive = selected === index;
             return (
               <div
-                key={index}
-                onClick={() => handleSelect(index)}
-                className={`flex flex-col rounded-2xl shadow-md overflow-hidden border w-full max-w-md max-h-[80vh] transition-colors duration-300 cursor-pointer ${
-                  isActive
-  ? 'bg-blue-500 border-3 border-[#a7def5] ring-4 '
-  : 'bg-white border-gray-200'
+  key={index}
+  onClick={() => handleSelect(index)}
+  onDoubleClick={() => setSelected(null)} // 👈 double-click unselects
+  className={`flex flex-col rounded-2xl shadow-md overflow-hidden border w-full max-w-md max-h-[80vh] transition-colors duration-300 cursor-pointer ${
+    isActive
+      ? 'bg-blue-500 border-3 border-[#a7def5] ring-4 '
+      : 'bg-white border-gray-200'
+  }`}
+  style={isActive ? { boxShadow: '0 6px 34px #c0dbfc55' } : {}}
+>
 
-                }`}
-                style={isActive ? { boxShadow: '0 6px 34px #c0dbfc55' } : {}}
-              >
                 <div
                   className="w-full flex justify-center bg-white relative cursor-zoom-in"
                   onClick={(e) => {
@@ -163,36 +164,57 @@ export default function DesignsPage() {
         </div>
 
         {/* Preview Button */}
-        {selected !== null && (
-          <div className="fixed bottom-6 left-0 right-0 flex justify-center z-40">
-            <button
-              onClick={handlePreview}
-              className="bg-gradient-to-r from-[#5598FF] to-[#7EB1FF] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transition"
-            >
-              Preview
-            </button>
-          </div>
-        )}
+        <div className="fixed bottom-6 left-0 right-0 flex justify-center z-40">
+  <button
+    onClick={handlePreview}
+    disabled={selected === null}
+    className={`font-bold py-3 px-6 rounded-full shadow-lg transition transform ${
+      selected !== null
+        ? 'bg-gradient-to-r from-[#5598FF] to-[#7EB1FF] text-white hover:scale-105'
+        : 'bg-gray-400 text-white cursor-not-allowed'
+    }`}
+  >
+    Preview
+  </button>
+</div>
+
       </div>
 
       {/* Zoom Modal */}
       {zoomedIndex !== null && (
-        <div
-          onClick={() => setZoomedIndex(null)}
-          className="fixed inset-0 z-50 bg-white/70 backdrop-blur-lg flex items-center justify-center"
-        >
-          <div className="relative flex items-center justify-center bg-white rounded-2xl shadow-lg p-4">
-            <Image
-              src={images[zoomedIndex].src}
-              alt="Zoomed"
-              width={600}
-              height={600}
-              className="object-contain rounded-2xl"
-              style={{ maxHeight: '80vh', maxWidth: '90vw', width: 'auto', height: 'auto' }}
-            />
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 z-50 bg-white/70 backdrop-blur-lg flex items-center justify-center">
+    {/* Close icon */}
+    <button
+      onClick={() => setZoomedIndex(null)}
+      className="absolute top-6 right-6 md:top-8 md:right-8 z-50 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition"
+      aria-label="Close zoomed image"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-6 w-6 text-gray-700"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    {/* Zoomed image */}
+    <div className="relative flex items-center justify-center bg-white rounded-2xl shadow-lg p-4">
+      <Image
+        src={images[zoomedIndex].src}
+        alt="Zoomed"
+        width={600}
+        height={600}
+        className="object-contain rounded-2xl"
+        style={{ maxHeight: '80vh', maxWidth: '90vw', width: 'auto', height: 'auto' }}
+      />
+    </div>
+  </div>
+)}
+
     </main>
   );
 }
