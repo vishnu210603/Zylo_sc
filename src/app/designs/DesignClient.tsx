@@ -127,14 +127,16 @@ export default function DesignsPage() {
   onDoubleClick={() => setSelected(null)} // 👈 double-click unselects
   className={`flex flex-col rounded-2xl shadow-md overflow-hidden border w-full max-w-md max-h-[80vh] transition-colors duration-300 cursor-pointer ${
     isActive
-      ? 'bg-blue-500 border-3 border-[#a7def5] ring-4 '
+      ? 'bg-blue-500 border-3 border-[#C3DBFF] ring-4 '
       : 'bg-white border-gray-200'
   }`}
   style={isActive ? { boxShadow: '0 6px 34px #c0dbfc55' } : {}}
 >
 
                 <div
-                  className="w-full flex justify-center bg-white relative cursor-zoom-in"
+                  className={`w-full flex justify-center bg-[#c3dbff] relative cursor-zoom-in ${
+    isActive ? ' bg-[#C3DBFF]' : 'bg-white'
+  }`}
                   onClick={(e) => {
                     e.stopPropagation();
                     setZoomedIndex(index);
@@ -148,9 +150,11 @@ export default function DesignsPage() {
                     className="object-contain pointer-events-auto"
                   />
                 </div>
-                <div className="flex-1 min-h-[60px] bg-[#b7e0f1] p-4 flex items-stretch">
+                <div className={`flex-1 min-h-[60px] p-4 flex items-stretch ${
+    isActive ? ' bg-[#C3DBFF]' : 'bg-white'
+  }`}>
                   <div
-  className={`w-full h-[100px] rounded-xl text-sm font-medium text-left overflow-y-auto px-4 py-3 transition-all scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ${
+  className={`w-full h-[100px] rounded-xl text-sm font-medium text-left overflow-y-auto px-4 py-3 transition-all scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 shadow-md drop-shadow-background  ${
     isActive ? 'text-black bg-white' : 'bg-white text-gray-800'
   }`}
 >

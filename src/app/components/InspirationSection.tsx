@@ -232,7 +232,7 @@ const InspirationParallax = () => {
       {selectedIndex !== null && (
   <div
     id="popup-background"
-    className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm flex items-center justify-center p-4"
+    className="fixed inset-0 z-100 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4"
     onClick={handleBackgroundClick}
   >
     {/* Close Button - Fixed to Top Right of Page */}

@@ -48,14 +48,14 @@ const YourWorks = () => {
      {selectedIndex !== null && (
   <div
     id="popup-background"
-    className="fixed inset-0 z-100 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4"
+    className="fixed inset-0 z-100 bg-black/20 backdrop-blur-sm flex items-center justify-center p-4"
     onClick={handleBackgroundClick}
   >
     {/* Close Button at top-right */}
    {selectedIndex !== null && (
   <div
     id="popup-background"
-    className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm flex items-center justify-center p-4"
+    className="fixed inset-0 z-[100] flex items-center justify-center p-4"
     onClick={handleBackgroundClick}
   >
     {/* Close Button at top-right of viewport (fixed ensures iPhone support) */}

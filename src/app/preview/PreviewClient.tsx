@@ -210,7 +210,7 @@ const [scheduledTime, setScheduledTime] = useState<string>('');
       </div>
 
       {/* Schedule Modal */}
-      {showScheduler && (
+      {/* {showScheduler && (
   <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center">
     <div className="bg-white p-6 rounded-xl w-full max-w-sm text-black">
       <div className="text-lg font-semibold mb-4 text-center text-black">📅 Schedule Your Post</div>
@@ -244,6 +244,77 @@ const [scheduledTime, setScheduledTime] = useState<string>('');
         >
           Save
         </button>
+      </div>
+    </div>
+  </div>
+)} */}
+
+
+{showScheduler && (
+  <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
+    <div className="relative bg-white rounded-2xl w-full max-w-sm aspect-[1/1] shadow-xl flex flex-col justify-between p-6">
+      
+      {/* Header */}
+      <h2 className="text-xl font-semibold text-center text-gray-800 mb-2">
+        📅 Schedule Your Post
+      </h2>
+
+      {/* Inputs */}
+      <div className="flex flex-col gap-4">
+        <input
+          type="date"
+          className="w-full border border-gray-300 p-2 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={scheduledDate}
+          onChange={(e) => setScheduledDate(e.target.value)}
+        />
+        <input
+          type="time"
+          className="w-full border border-gray-300 p-2 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={scheduledTime}
+          onChange={(e) => setScheduledTime(e.target.value)}
+        />
+      </div>
+
+      {/* Buttons */}
+      <div className="flex justify-between items-center mt-6">
+        {/* Undo Scheduling (only if post is scheduled) */}
+        {isScheduled ? (
+          <button
+            onClick={() => {
+              setIsScheduled(false);
+              setScheduledDate('');
+              setScheduledTime('');
+            }}
+            className="text-sm text-white font-medium px-4 py-1.5 rounded bg-blue-600 transition"
+          >
+            Reset
+          </button>
+        ) : (
+          <div /> // Empty div to maintain space if undo is not shown
+        )}
+
+        <div className="flex gap-3">
+          <button
+            onClick={() => setShowScheduler(false)}
+            className="text-sm px-4 py-1.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => {
+              setIsScheduled(true);
+              setShowScheduler(false);
+            }}
+            disabled={!scheduledDate || !scheduledTime}
+            className={`text-sm px-4 py-1.5 rounded-lg transition font-medium ${
+              scheduledDate && scheduledTime
+                ? 'bg-blue-600 text-white hover:bg-blue-700'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            Save
+          </button>
+        </div>
       </div>
     </div>
   </div>
