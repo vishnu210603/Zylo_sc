@@ -29,12 +29,12 @@ export default function DesignsPage() {
           {
             src: '/resources/11.png',
             alt: 'Shaper_Cult',
-            caption: 'Classic square design—perfectly balanced for any layout.',
+            caption: 'Own your power, dance in your vibe. This is ShaperCult. #womenempowerment',
           },
           {
             src: '/resources/SC13.png',
             alt: 'Shaper_Cult',
-            caption: 'Bold and centered—ideal for Instagram and product shots.',
+            caption: 'New from ShaperCult: Bra and Stockings that lift more than just curves. Step into comfort, own your power. women body positivity ',
           },
         ];
       case '2:3':
@@ -42,12 +42,12 @@ export default function DesignsPage() {
           {
             src: '/resources/SC14.png',
             alt: 'Shaper_Cult',
-            caption: 'Tall format—great for posters and vertical storytelling.',
+            caption: 'Use the product sample (bra) in the image to create Vogue styled photoshoot with beach background and a pet dog with the model. Do not make any changes to the product. Use Indian models',
           },
           {
             src: '/resources/SC15.png',
             alt: 'Shaper_Cult',
-            caption: 'Highlight your product vertically in stunning proportion.',
+            caption: 'Own your power, dance in your vibe. This is ShaperCult. #womenempowerment',
           },
         ];
       case '3:2':
@@ -55,12 +55,12 @@ export default function DesignsPage() {
           {
             src: '/resources/SC10.png',
             alt: 'Shaper_Cult',
-            caption: 'Landscape format—perfect for cinematic and print visuals.',
+            caption: 'Own your power, dance in your vibe. This is ShaperCult. #womenempowerment',
           },
           {
             src: '/resources/SC11.png',
             alt: 'Shaper_Cult',
-            caption: 'Wide yet focused—balanced for all screens.',
+            caption: 'New from ShaperCult: Bra and Stockings that lift more than just curves. Step into comfort, own your power. women body positivity',
           },
         ];
       default:
@@ -126,7 +126,7 @@ export default function DesignsPage() {
                 onClick={() => handleSelect(index)}
                 className={`flex flex-col rounded-2xl shadow-md overflow-hidden border w-full max-w-md max-h-[80vh] transition-colors duration-300 cursor-pointer ${
                   isActive
-  ? 'bg-blue-500 border-2 border-blue-500 ring-4 ring-blue-500'
+  ? 'bg-blue-500 border-3 border-[#a7def5] ring-4 '
   : 'bg-white border-gray-200'
 
                 }`}
@@ -147,14 +147,15 @@ export default function DesignsPage() {
                     className="object-contain pointer-events-auto"
                   />
                 </div>
-                <div className="flex-1 min-h-[60px] bg-[#F6F8FC] p-4 flex items-stretch">
+                <div className="flex-1 min-h-[60px] bg-[#b7e0f1] p-4 flex items-stretch">
                   <div
-                    className={`w-full rounded-xl text-sm font-medium text-left min-h-[80px] max-h-[220px] overflow-y-auto px-4 py-3 transition-all ${
-                      isActive ? 'text-black' : 'bg-white text-gray-800'
-                    }`}
-                  >
-                    <span className="whitespace-pre-wrap block">{img.caption}</span>
-                  </div>
+  className={`w-full h-[100px] rounded-xl text-sm font-medium text-left overflow-y-auto px-4 py-3 transition-all scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ${
+    isActive ? 'text-black bg-white' : 'bg-white text-gray-800'
+  }`}
+>
+  <span className="whitespace-pre-wrap block">{img.caption}</span>
+</div>
+
                 </div>
               </div>
             );
